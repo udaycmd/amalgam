@@ -10,7 +10,7 @@ const footerLinks: { name: string; href: string }[] = [
 
 export default function Home() {
     return (
-        <div className="min-h-screen overflow-hidden">
+        <div className="min-h-screen overflow-hidden w-full">
             <main className="flex relative container mx-auto py-13 items-center justify-center">
                 <Image
                     src="/tello.webp"
