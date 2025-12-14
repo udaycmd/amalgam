@@ -1,0 +1,30 @@
+[
+    {
+        "title": "Video Games",
+        "subspaces": [
+            "Video Games",
+            "Video Game Generals",
+            "Video Games/Multiplayer",
+            "Video Games/Mobile",
+            "Pokémon",
+            "Retro Games",
+            "Video Games/RPG",
+            "Video Games/Strategy"
+        ]
+    },
+    {
+        "title": "Other",
+        "subspaces": [
+            "Business & Finance",
+            "Travel",
+            "Fitness",
+            "Paranormal",
+            "Advice",
+            "LGBT",
+            "Pony",
+            "Current News",
+            "Worksafe Requests",
+            "Very Important Posts"
+        ]
+    }
+]
