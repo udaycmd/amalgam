@@ -11,7 +11,7 @@ export default function Home() {
           See what&apos;s happening across all boards.
         </p>
       </div>
-      <Separator />
+      {/*<Separator />*/}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {MOCK_THREADS.map((thread) => (
           <ThreadCard key={thread.id} thread={thread} />
