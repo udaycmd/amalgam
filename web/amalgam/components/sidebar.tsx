@@ -1,18 +1,27 @@
 "use client";
 
+import {type Channel} from "@/lib/data";
+
+import {cn} from "@/lib/utils";
 import {useState} from "react";
 import {usePathname} from "next/navigation";
-import {BOARDS} from "@/lib/data";
-import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Sheet, SheetContent, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import {Menu} from "lucide-react";
+import {env} from "@/env.mjs";
+import {useChannels} from "@/hooks";
 import Link from "next/link";
 
 export function Sidebar() {
 	const pathname = usePathname();
-	const Org = process.env.NEXT_PUBLIC_ORG_NAME;
+	const Org = env.NEXT_PUBLIC_ORG_NAME;
+	const {data, error, isLoading} = useChannels();
+
+	if (error) return <h1>Error</h1>;
+	if (isLoading) return <h1>Loading</h1>;
+
+	const Channels = data as Channel[];
 
 	return (
 		<div className="hidden bg-[#0E1113] overflow-hidden md:block w-70 shrink-0 min-h-screen sticky">
@@ -26,19 +35,19 @@ export function Sidebar() {
 							All Channels
 						</h4>
 						<div className="grid gap-1">
-							{BOARDS.map((board) => (
+							{Channels.map((channel) => (
 								<Link
-									key={board.id}
-									href={`/${board.id}`}
+									key={channel.id}
+									href={`/${channel.id}`}
 								>
 									<Button
-										variant={pathname === `/${board.id}` ? "secondary" : "ghost"}
+										variant={pathname === `/${channel.id}` ? "secondary" : "ghost"}
 										className={cn(
 											"justify-start w-full cursor-pointer",
-											pathname === `/${board.id}` && "font-semibold"
+											pathname === `/${channel.id}` && "font-semibold"
 										)}
 									>
-										<span className="mr-1 text-gray-400">/{board.id}</span>{board.name}
+										<span className="mr-1 text-gray-400">/{channel.id}</span>{channel.name}
 									</Button>
 								</Link>
 							))}
@@ -53,6 +62,12 @@ export function Sidebar() {
 export function MobileSideBar() {
 	const pathname = usePathname();
 	const [open, setOpen] = useState(false);
+	const {data, error, isLoading} = useChannels();
+
+	if (error) return <h1>Error</h1>;
+	if (isLoading) return <h1>Loading</h1>;
+
+	const Channels = data as Channel[];
 
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
@@ -70,20 +85,20 @@ export function MobileSideBar() {
 							All Channels
 						</h4>
 						<div className="grid gap-1">
-							{BOARDS.map((board) => (
+							{Channels.map((channel) => (
 								<Link
-									key={board.id}
-									href={`/${board.id}`}
+									key={channel.id}
+									href={`/${channel.id}`}
 									onClick={() => setOpen(false)}
 								>
 									<Button
-										variant={pathname === `/${board.id}` ? "secondary" : "ghost"}
+										variant={pathname === `/${channel.id}` ? "secondary" : "ghost"}
 										className={cn(
 											"justify-start w-full cursor-pointer",
-											pathname === `/${board.id}` && "font-medium"
+											pathname === `/${channel.id}` && "font-medium"
 										)}
 									>
-										<span className="mr-1 text-gray-400">/{board.id}</span>{board.name}
+										<span className="mr-1 text-gray-400">/{channel.id}</span>{channel.name}
 									</Button>
 								</Link>
 							))}
@@ -92,5 +107,6 @@ export function MobileSideBar() {
 				</ScrollArea>
 			</SheetContent>
 		</Sheet>
-	);
+	)
+		;
 }

@@ -3,6 +3,7 @@ import type {Metadata} from "next";
 import {Outfit} from "next/font/google";
 import {Sidebar} from "@/components/sidebar";
 import {Header} from "@/components/header";
+import {env} from "@/env.mjs";
 import React from "react";
 import "./globals.css";
 
@@ -10,7 +11,7 @@ const baseFont = Outfit({subsets: ["latin"]});
 const alwaysDark = "dark";
 
 export const metadata: Metadata = {
-	title: process.env.NEXT_PUBLIC_ORG_NAME,
+	title: env.NEXT_PUBLIC_ORG_NAME,
 	description: "Anonymous discussion platform",
 };
 
