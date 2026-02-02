@@ -1,26 +1,26 @@
 import type {Metadata} from "next";
 
-import {Outfit} from "next/font/google"
-import {AppSidebar} from "@/components/app-sidebar";
+import {Outfit} from "next/font/google";
+import {Sidebar} from "@/components/sidebar";
 import {Header} from "@/components/header";
 import React from "react";
 import "./globals.css";
 
 const baseFont = Outfit({subsets: ["latin"]});
-const alwaysDark = "dark"
+const alwaysDark = "dark";
 
 export const metadata: Metadata = {
-	title: process.env.ORG,
+	title: process.env.NEXT_PUBLIC_ORG_NAME,
 	description: "Anonymous discussion platform",
 };
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en" className={alwaysDark}>
-		<body className={`${baseFont.className} antialiased min-h-screen bg-background z-0`}>
+		<body className={`${baseFont.className} antialiased min-h-screen bg-background`}>
 		<div className="relative flex min-h-screen flex-col md:flex-row">
-			<AppSidebar/>
-			<div className="flex-1 flex flex-col min-w-full">
+			<Sidebar/>
+			<div className="flex-1 flex flex-col min-w-0 z-0">
 				<Header/>
 				<main className="flex-1 w-full bg-background">
 					{children}
