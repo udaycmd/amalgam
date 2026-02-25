@@ -1,34 +1,43 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 
-import {Outfit} from "next/font/google";
-import {Sidebar} from "@/components/sidebar";
-import {Header} from "@/components/header";
-import {env} from "@/env.mjs";
+import { Outfit } from "next/font/google";
+import { Sidebar } from "@/components/sidebar";
+import { Header } from "@/components/header";
+import { env } from "@/env.mjs";
 import React from "react";
 import "./globals.css";
 
-const baseFont = Outfit({subsets: ["latin"]});
+const baseFont = Outfit({ subsets: ["latin"] });
 const alwaysDark = "dark";
 
 export const metadata: Metadata = {
-	title: env.NEXT_PUBLIC_ORG_NAME,
-	description: "Anonymous discussion platform",
+  title: env.NEXT_PUBLIC_ORG_NAME,
+  description: "Anonymous discussion platform",
 };
 
-export default function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
-	return (
-		<html lang="en" className={alwaysDark}>
-		<body className={`${baseFont.className} antialiased min-h-screen bg-background`}>
-		<div className="relative flex min-h-screen flex-col md:flex-row">
-			<Sidebar/>
-			<div className="flex-1 flex flex-col min-w-0 z-0">
-				<Header/>
-				<main className="flex-1 w-full bg-background">
-					{children}
-				</main>
-			</div>
-		</div>
-		</body>
-		</html>
-	);
+async function getChannels() {
+  const res = await fetch(`${env.BACKEND_API_ROOT}/channels`);
+  return res.json();
+}
+
+export default async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  const channels = await getChannels();
+
+  return (
+    <html lang="en" className={alwaysDark}>
+      <body
+        className={`${baseFont.className} antialiased min-h-screen bg-background`}
+      >
+        <div className="relative flex min-h-screen flex-col md:flex-row">
+          <Sidebar channels={channels} />
+          <div className="flex-1 flex flex-col min-w-0 z-0">
+            <Header channels={channels} />
+            <main className="flex-1 w-full bg-background">{children}</main>
+          </div>
+        </div>
+      </body>
+    </html>
+  );
 }

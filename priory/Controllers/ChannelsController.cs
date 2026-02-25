@@ -4,7 +4,7 @@ using priory.Static;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/channels")]
+[Route("channels")]
 public class ChannelsController : ControllerBase
 {
     [HttpGet]
