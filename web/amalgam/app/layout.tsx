@@ -9,7 +9,6 @@ import Link from "next/link";
 import "./globals.css";
 
 const baseFont = Outfit({ subsets: ["latin"] });
-const alwaysDark = "dark";
 const org = env.NEXT_PUBLIC_ORG_NAME;
 
 export const metadata: Metadata = {
@@ -42,7 +41,7 @@ export default async function RootLayout({
   const channels = await getChannels();
 
   return (
-    <html lang="en" className={alwaysDark}>
+    <html lang="en">
       <body
         className={`${baseFont.className} antialiased min-h-screen bg-background`}
       >
@@ -57,7 +56,7 @@ export default async function RootLayout({
                 </div>
               </div>
             </header>
-            <main className="flex-1 w-full bg-background">{children}</main>
+            <main className="flex-1 w-full">{children}</main>
           </div>
         </div>
       </body>

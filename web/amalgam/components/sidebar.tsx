@@ -21,7 +21,7 @@ export function Sidebar({ channels }: SidebarProps) {
   const Org = env.NEXT_PUBLIC_ORG_NAME;
 
   return (
-    <div className="hidden bg-[#0E1113] overflow-hidden md:block w-70 shrink-0 min-h-screen sticky">
+    <div className="hidden bg-sidebar overflow-hidden md:block w-70 shrink-0 min-h-screen sticky">
       <div className="flex flex-col h-full">
         <div className="flex h-17 p-5 border-b border-white">
           <Link className="text-xl font-semibold" href="/">
