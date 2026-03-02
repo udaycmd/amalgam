@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Channel } from "@/types/interfaces";
 
 import { Outfit } from "next/font/google";
 import { Sidebar } from "@/components/sidebar";
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   description: "Anonymous discussion platform",
 };
 
-async function getChannels() {
+async function getChannels(): Promise<Channel[]> {
   try {
     const res = await fetch(`${env.BACKEND_API_ROOT}/channels`);
 

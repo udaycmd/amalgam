@@ -12,7 +12,7 @@ export default function Home() {
           See what&apos;s happening across channels.
         </p>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         {MOCK_THREADS.map((thread) => (
           <ThreadCard key={thread.id} thread={thread} />
         ))}
