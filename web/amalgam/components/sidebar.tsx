@@ -23,14 +23,14 @@ export function Sidebar({ channels }: SidebarProps) {
   return (
     <div className="hidden bg-sidebar overflow-hidden md:block w-70 shrink-0 min-h-screen sticky">
       <div className="flex flex-col h-full">
-        <div className="flex h-17 p-5 border-b border-white">
-          <Link className="text-xl font-semibold" href="/">
+        <div className="flex h-17 p-5 border-b border-primary">
+          <Link className="text-xl font-semibold text-primary" href="/">
             {Org}
           </Link>
         </div>
         <ScrollArea>
           <div className="p-5 text-md">
-            <h4 className="mb-5 font-semibold tracking-tight text-gray-400">
+            <h4 className="mb-5 font-semibold tracking-tight text-muted-foreground">
               All Channels
             </h4>
             <div className="grid gap-1">
@@ -43,7 +43,7 @@ export function Sidebar({ channels }: SidebarProps) {
                       pathname === `/${c.id}` && "font-semibold",
                     )}
                   >
-                    <span className="mr-1 text-gray-400">/{c.id}</span>
+                    <span className="mr-1 text-muted-foreground">/{c.id}</span>
                     {c.name}
                   </Button>
                 </Link>
@@ -68,11 +68,11 @@ export function MobileSideBar({ channels }: SidebarProps) {
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-70 bg-[#0E1113]">
+      <SheetContent side="left" className="w-70 bg-sidebar">
         <SheetTitle className="sr-only"></SheetTitle>
         <ScrollArea className="h-full">
           <div className="p-5 text-sm">
-            <h4 className="mb-5 font-semibold tracking-tight text-gray-400">
+            <h4 className="mb-5 font-semibold tracking-tight text-muted-foreground">
               All Channels
             </h4>
             <div className="grid gap-1">
@@ -89,7 +89,7 @@ export function MobileSideBar({ channels }: SidebarProps) {
                       pathname === `/${c.id}` && "font-medium",
                     )}
                   >
-                    <span className="mr-1 text-gray-400">/{c.id}</span>
+                    <span className="mr-1 text-muted-foreground">/{c.id}</span>
                     {c.name}
                   </Button>
                 </Link>

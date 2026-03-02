@@ -3,6 +3,7 @@ import type { Channel } from "@/types/interfaces";
 
 import { Outfit } from "next/font/google";
 import { Sidebar } from "@/components/sidebar";
+import { get } from "@/lib/utils";
 import { MobileSideBar } from "@/components/sidebar";
 import { env } from "@/env.mjs";
 import React from "react";
@@ -17,29 +18,10 @@ export const metadata: Metadata = {
   description: "Anonymous discussion platform",
 };
 
-async function getChannels(): Promise<Channel[]> {
-  try {
-    const res = await fetch(`${env.BACKEND_API_ROOT}/channels`);
-
-    if (!res.ok) {
-      console.error(`unable to fetch channels, server status: ${res.status}`);
-      return [];
-    }
-
-    return res.json();
-  } catch (e) {
-    if (e instanceof Error) {
-      console.error(`unable to fetch channels: ${e.message}`);
-    }
-
-    return [];
-  }
-}
-
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const channels = await getChannels();
+  const channels = await get<Channel[]>("channels", 24 * 3600);
 
   return (
     <html lang="en">
