@@ -38,3 +38,10 @@ export interface ChannelPageProps {
     channelId: string;
   }>;
 }
+
+export interface ThreadPageProps {
+  params: Promise<{
+    channel: string;
+    threadId: string;
+  }>;
+}

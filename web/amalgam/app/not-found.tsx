@@ -9,7 +9,7 @@ export default function NotFound() {
           <div className="text-5xl font-bold">404</div>
           <div className="text-md font-semibold">Not found</div>
           <p className="text-sm text-muted-foreground">
-            The board or thread you&apos;re looking for either never existed,
+            The channel or thread you&apos;re looking for either never existed,
             was archived, or has been removed.
           </p>
         </div>
