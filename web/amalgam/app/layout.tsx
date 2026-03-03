@@ -21,7 +21,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const channels = await get<Channel[]>("channels", 24 * 3600);
+  const channels =
+    (await get<Channel[]>("channels", {
+      next: { revalidate: 24 * 3600 },
+    })) ?? [];
 
   return (
     <html lang="en">

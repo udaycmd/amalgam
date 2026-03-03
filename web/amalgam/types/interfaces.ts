@@ -32,3 +32,9 @@ export interface SidebarProps {
 export interface ThreadCardProps {
   thread: Thread;
 }
+
+export interface ChannelPageProps {
+  params: Promise<{
+    channelId: string;
+  }>;
+}

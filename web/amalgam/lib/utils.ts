@@ -6,20 +6,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// server fetch helper
 export async function get<T>(
   route: string,
-  revalidate?: number | false,
-): Promise<T> {
+  requestConfig?: RequestInit,
+): Promise<T | null> {
   try {
-    const res = await fetch(`${env.BACKEND_API_ROOT}/${route}`, {
-      next: {
-        revalidate: revalidate,
-      },
-    });
+    const res = await fetch(`${env.BACKEND_API_ROOT}/${route}`, requestConfig);
 
     if (!res.ok) {
       console.error(`unable to fetch, server status: ${res.status}`);
-      return [] as T;
+      return null;
     }
 
     return res.json();
@@ -28,6 +25,6 @@ export async function get<T>(
       console.error(`unable to fetch: ${e.message}`);
     }
 
-    return [] as T;
+    return null;
   }
 }

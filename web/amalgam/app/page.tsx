@@ -3,7 +3,10 @@ import { Thread } from "@/types/interfaces";
 import { ThreadCard } from "@/components/thread-card";
 
 export default async function Home() {
-  const topThreads = await get<Thread[]>("top", 900);
+  const topThreads =
+    (await get<Thread[]>("top", {
+      next: { revalidate: 900 },
+    })) ?? [];
 
   return (
     <div className="flex flex-col gap-7 p-6 md:p-12 max-w-8xl mx-auto w-full">
