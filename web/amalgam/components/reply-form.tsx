@@ -1,48 +1,44 @@
 "use client";
 
+import { ReplyFormProps } from "@/types/interfaces";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
-export function ReplyForm() {
+export function ReplyForm({ channel, threadId }: ReplyFormProps) {
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit() {
+    if (!content.trim()) return;
+
+    setLoading(true);
+
+    await fetch(`/api/boards/${channel}/threads/${threadId}/posts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content }),
+    });
+
+    setContent("");
+    setLoading(false);
+  }
+
   return (
-    <Card className="w-full">
-      <CardHeader className="pb-3 border-b">
-        <CardTitle className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-          Post a Reply
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-4 grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="options">Options</Label>
-          <Input id="options" placeholder="Name, Options (e.g. sage), etc." />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="comment">Comment</Label>
-          <Textarea
-            id="comment"
-            placeholder="Write your thoughts..."
-            className="min-h-120px resize-y"
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label>Image</Label>
-          <div className="border border-dashed rounded-md h-24 flex items-center justify-center text-xs text-muted-foreground bg-muted/20 hover:bg-muted/40 transition-colors cursor-pointer">
-            Click or Drag to Upload Image
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="p-4 bg-muted/20 border-t flex justify-end">
-        <Button>Post Reply</Button>
-      </CardFooter>
-    </Card>
+    <div className="border rounded-lg p-4 space-y-3">
+      <textarea
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder="Write your reply..."
+        className="w-full min-h-120px rounded-md border p-3 text-sm bg-background"
+      />
+
+      <Button
+        onClick={handleSubmit}
+        disabled={loading}
+        className="w-full md:w-auto"
+      >
+        {loading ? "Posting..." : "Post Reply"}
+      </Button>
+    </div>
   );
 }

@@ -23,6 +23,7 @@ export interface Thread {
   replyCount: number;
   imageUrl: string;
   lastInteracted: string;
+  locked: boolean;
 }
 
 export interface SidebarProps {
@@ -44,4 +45,14 @@ export interface ThreadPageProps {
     channel: string;
     threadId: string;
   }>;
+}
+
+export interface PostItemProps {
+  post: Post;
+  isOriginal?: boolean;
+}
+
+export interface ReplyFormProps {
+  channel: string;
+  threadId: string;
 }
