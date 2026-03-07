@@ -1,6 +1,0 @@
-.env*
-config.*
-
-# dotnet
-**/bin/
-**/obj/
