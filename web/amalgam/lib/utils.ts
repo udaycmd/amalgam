@@ -15,7 +15,7 @@ export async function get<T>(
     const res = await fetch(`${env.BACKEND_API_ROOT}/${route}`, requestConfig);
 
     if (!res.ok) {
-      console.error(`unable to fetch, server status: ${res.status}`);
+      console.error(`unable to fetch /${route}, server status: ${res.status}`);
       return null;
     }
 
