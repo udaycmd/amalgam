@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  threadId  Int
+  channel   String
+  author    String   @default("unknown")
+  acode     String?
+  media     String?
+  content   String?
+  sage      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  thread Thread @relation(fields: [threadId], references: [id])
+}
+
+model Thread {
+  id         Int      @id @default(autoincrement())
+  title      String?
+  channelId  Int
+  bumpedAt   DateTime @default(now())
+  createdAt  DateTime @default(now())
+  replyCount Int      @default(0)
+  isLocked   Boolean  @default(false)
+  isArchived Boolean  @default(false)
+
+  replies Post[]
+  channel Channel @relation(fields: [channelId], references: [id])
+}
+
+model Channel {
+  id   Int     @id @default(autoincrement())
+  slug String  @unique
+  name String
+  desc String?
+
+  threadLimit Int @default(100)
+  bumpLimit   Int @default(150)
+
+  threads Thread[]
+}

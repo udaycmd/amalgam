@@ -8,4 +8,6 @@ app.use(express.json());
 
 app.use("/api/v1", apiRouter);
 
-app.listen(config.port);
+app.listen(config.port, () => {
+  console.log(`server started at ${config.port}`);
+});
