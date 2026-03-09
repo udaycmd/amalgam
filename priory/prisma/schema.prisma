@@ -8,22 +8,24 @@ datasource db {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  threadId  Int
+  id        BigInt   @id @default(autoincrement())
+  threadId  BigInt
   channel   String
   author    String   @default("unknown")
-  acode     String?
+  ucode     String?
   media     String?
   content   String?
+  op        Boolean  @default(false)
   sage      Boolean  @default(false)
   createdAt DateTime @default(now())
 
   thread Thread @relation(fields: [threadId], references: [id])
+
+  @@index([threadId, id])
 }
 
 model Thread {
-  id         Int      @id @default(autoincrement())
-  title      String?
+  id         BigInt   @id
   channelId  Int
   bumpedAt   DateTime @default(now())
   createdAt  DateTime @default(now())
@@ -31,8 +33,10 @@ model Thread {
   isLocked   Boolean  @default(false)
   isArchived Boolean  @default(false)
 
-  replies Post[]
+  posts   Post[]
   channel Channel @relation(fields: [channelId], references: [id])
+
+  @@index([channelId, bumpedAt])
 }
 
 model Channel {

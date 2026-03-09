@@ -2,12 +2,8 @@ import { Router } from "express";
 
 const threadRouter = Router({ mergeParams: true });
 
-// TODO: Add a POST route for this
-threadRouter.get("/", (req, res) => {
+threadRouter.get("/", async (req, res) => {
   const { channel } = req.params as { channel: string };
-
-  // TODO: change this
-  res.status(200).send(`routed to ${channel}`);
 });
 
 threadRouter.get("/:threadId", (req, res) => {
@@ -16,7 +12,6 @@ threadRouter.get("/:threadId", (req, res) => {
     channel: string;
   };
 
-  // TODO: change this
   res.status(200).send(`routed to thread ${channel}/${threadId}`);
 });
 
