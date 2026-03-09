@@ -10,7 +10,6 @@ datasource db {
 model Post {
   id        BigInt   @id @default(autoincrement())
   threadId  BigInt
-  channel   String
   author    String   @default("unknown")
   ucode     String?
   media     String?
@@ -19,9 +18,9 @@ model Post {
   sage      Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  thread Thread @relation(fields: [threadId], references: [id])
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
-  @@index([threadId, id])
+  @@index([threadId, ucode])
 }
 
 model Thread {
@@ -34,7 +33,7 @@ model Thread {
   isArchived Boolean  @default(false)
 
   posts   Post[]
-  channel Channel @relation(fields: [channelId], references: [id])
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
 
   @@index([channelId, bumpedAt])
 }
