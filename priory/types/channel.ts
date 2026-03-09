@@ -1,5 +1,5 @@
 export type Channel = Readonly<{
-  id: string;
+  slug: string;
   name: string;
   desc: string;
   nsfw: boolean;

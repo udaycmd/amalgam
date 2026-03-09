@@ -42,7 +42,8 @@ model Channel {
   id   Int     @id @default(autoincrement())
   slug String  @unique
   name String
-  desc String?
+  desc String
+  nsfw Boolean @default(false)
 
   threadLimit Int @default(100)
   bumpLimit   Int @default(150)

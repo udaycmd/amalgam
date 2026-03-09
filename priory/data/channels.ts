@@ -2,37 +2,37 @@ import type { Channel } from "@/types/channel.js";
 
 export const channels: Channel[] = [
   {
-    id: "th",
+    slug: "th",
     name: "Technology",
     desc: "Technology & Software",
     nsfw: false,
   },
   {
-    id: "vg",
+    slug: "vg",
     name: "Video Games",
     desc: "Video Games",
     nsfw: false,
   },
   {
-    id: "am",
+    slug: "am",
     name: "Anime & Manga",
     desc: "Anime & Manga",
     nsfw: false,
   },
   {
-    id: "ph",
+    slug: "ph",
     name: "Photography",
     desc: "Photography",
     nsfw: false,
   },
   {
-    id: "ck",
+    slug: "ck",
     name: "Food & Cooking",
     desc: "Food & Cooking",
     nsfw: false,
   },
   {
-    id: "fit",
+    slug: "fit",
     name: "Fitness",
     desc: "Health & Fitness",
     nsfw: false,
