@@ -3,8 +3,32 @@ import db from "@/prisma/db.js";
 
 const threadRouter = Router({ mergeParams: true });
 
+const POST_LIMIT = 50;
+const PAGE_LIMIT = 10;
+
 threadRouter.get("/", async (req, res) => {
   const { channel } = req.params as { channel: string };
+  const page = req.query.page ? parseInt(req.query.page as string) : 1;
+
+  const threads = await db.thread.findMany({
+    where: {
+      channel: { slug: channel },
+      isArchived: false,
+    },
+    orderBy: {
+      bumpedAt: "desc",
+    },
+    take: PAGE_LIMIT,
+    skip: (page - 1) * PAGE_LIMIT,
+    include: {
+      posts: {
+        where: { op: true },
+        take: 1,
+      },
+    },
+  });
+
+  res.json({ threads: [...threads] });
 });
 
 threadRouter.get("/:threadId", async (req, res) => {
@@ -15,7 +39,9 @@ threadRouter.get("/:threadId", async (req, res) => {
   const curr: bigint | undefined = req.query.cursor
     ? BigInt(req.query.cursor as string)
     : undefined;
-  const limit: number = req.query.limit ? Number(req.query.limit) : 50;
+  const limit: number = req.query.limit
+    ? parseInt(req.query.limit as string)
+    : POST_LIMIT;
   const skipMeta: boolean = req.headers["Skip-Meta"] === "true";
 
   let thread = undefined;
