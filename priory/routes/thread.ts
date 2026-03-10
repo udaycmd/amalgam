@@ -16,7 +16,7 @@ threadRouter.get("/:threadId", async (req, res) => {
     ? BigInt(req.query.cursor as string)
     : undefined;
   const limit: number = req.query.limit ? Number(req.query.limit) : 50;
-  const skipMeta: boolean = req.headers["x-skip-meta"] === "true";
+  const skipMeta: boolean = req.headers["Skip-Meta"] === "true";
 
   let thread = undefined;
 
