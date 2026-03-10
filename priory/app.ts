@@ -1,6 +1,9 @@
 import express from "express";
 import config from "@/config.js";
 import apiRouter from "@/routes/index.js";
+import bigIntJson from "@/utils/bigint.js";
+
+bigIntJson();
 
 const app = express();
 

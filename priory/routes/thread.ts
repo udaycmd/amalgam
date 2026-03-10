@@ -12,26 +12,64 @@ threadRouter.get("/:threadId", async (req, res) => {
     threadId: string;
     channel: string;
   };
+  const curr: bigint | undefined = req.query.cursor
+    ? BigInt(req.query.cursor as string)
+    : undefined;
+  const limit: number = req.query.limit ? Number(req.query.limit) : 50;
+  const skipMeta: boolean = req.headers["x-skip-meta"] === "true";
 
-  const thread = await db.thread.findFirst({
-    where: {
-      id: BigInt(threadId),
-      channel: {
-        slug: channel,
+  let thread = undefined;
+
+  if (!skipMeta) {
+    thread = await db.thread.findFirst({
+      where: {
+        id: BigInt(threadId),
+        channel: { slug: channel },
       },
-    },
-    include: {
-      posts: {
-        orderBy: {
-          createdAt: "asc",
+      include: {
+        posts: {
+          where: {
+            op: true,
+          },
+          take: 1,
         },
       },
+    });
+
+    if (!thread) {
+      return res.status(404).json({ error: "thread not found" });
+    }
+  }
+
+  let replies = await db.post.findMany({
+    where: {
+      threadId: BigInt(threadId),
+      op: false,
     },
+    take: limit,
+    orderBy: {
+      id: "asc",
+    },
+    ...(curr && {
+      cursor: {
+        id: curr,
+      },
+      skip: 1,
+    }),
   });
 
-  if (!thread) {
-    return res.status(404).json({ error: "Thread not found" });
-  }
+  const nxtCurr: string | undefined =
+    replies.length === limit
+      ? replies[replies.length - 1]?.id.toString()
+      : undefined;
+
+  return res.json({
+    ...(thread && {
+      thread: { ...thread, posts: [...thread.posts, ...replies] },
+    }),
+    ...(skipMeta && { replies }),
+    nxtCurr,
+  });
 });
 
 export default threadRouter;
