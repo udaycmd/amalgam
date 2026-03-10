@@ -3,7 +3,7 @@ import type { Channel } from "@/types/interfaces";
 
 import { Outfit } from "next/font/google";
 import { Sidebar } from "@/components/sidebar";
-import { get } from "@/lib/utils";
+import { request } from "@/lib/utils";
 import { MobileSideBar } from "@/components/sidebar";
 import { env } from "@/env.mjs";
 import React from "react";
@@ -22,7 +22,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const channels =
-    (await get<Channel[]>("channels", {
+    (await request<Channel[]>("channels", {
       next: { revalidate: 24 * 3600 },
     })) ?? [];
 

@@ -6,8 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// server fetch helper
-export async function get<T>(
+export async function request<T>(
   route: string,
   requestConfig?: RequestInit,
 ): Promise<T | null> {

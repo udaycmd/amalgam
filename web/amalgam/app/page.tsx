@@ -1,10 +1,10 @@
-import { get } from "@/lib/utils";
+import { request } from "@/lib/utils";
 import { Thread } from "@/types/interfaces";
 import { ThreadCard } from "@/components/thread-card";
 
 export default async function Home() {
   const topThreads =
-    (await get<Thread[]>("top", {
+    (await request<Thread[]>("top", {
       next: { revalidate: 900 },
     })) ?? [];
 

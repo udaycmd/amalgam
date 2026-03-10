@@ -35,15 +35,17 @@ export function Sidebar({ channels }: SidebarProps) {
             </h4>
             <div className="grid gap-1">
               {channels.map((c) => (
-                <Link key={c.id} href={`/${c.id}`}>
+                <Link key={c.slug} href={`/${c.slug}`}>
                   <Button
-                    variant={pathname === `/${c.id}` ? "secondary" : "ghost"}
+                    variant={pathname === `/${c.slug}` ? "secondary" : "ghost"}
                     className={cn(
                       "justify-start w-full cursor-pointer",
-                      pathname === `/${c.id}` && "font-semibold",
+                      pathname === `/${c.slug}` && "font-semibold",
                     )}
                   >
-                    <span className="mr-1 text-muted-foreground">/{c.id}</span>
+                    <span className="mr-1 text-muted-foreground">
+                      /{c.slug}
+                    </span>
                     {c.name}
                   </Button>
                 </Link>
@@ -78,18 +80,20 @@ export function MobileSideBar({ channels }: SidebarProps) {
             <div className="grid gap-1">
               {channels.map((c) => (
                 <Link
-                  key={c.id}
-                  href={`/${c.id}`}
+                  key={c.slug}
+                  href={`/${c.slug}`}
                   onClick={() => setOpen(false)}
                 >
                   <Button
-                    variant={pathname === `/${c.id}` ? "secondary" : "ghost"}
+                    variant={pathname === `/${c.slug}` ? "secondary" : "ghost"}
                     className={cn(
                       "justify-start w-full cursor-pointer",
-                      pathname === `/${c.id}` && "font-medium",
+                      pathname === `/${c.slug}` && "font-medium",
                     )}
                   >
-                    <span className="mr-1 text-muted-foreground">/{c.id}</span>
+                    <span className="mr-1 text-muted-foreground">
+                      /{c.slug}
+                    </span>
                     {c.name}
                   </Button>
                 </Link>
