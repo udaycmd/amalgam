@@ -1,11 +1,13 @@
-import { get } from "@/lib/utils";
+import { request } from "@/lib/utils";
 import { Thread, ThreadPageProps } from "@/types/interfaces";
 import { ThreadView } from "@/components/thread-view";
 import { notFound } from "next/navigation";
 
 export default async function ThreadPage({ params }: ThreadPageProps) {
-  const { channel, threadId } = await params;
-  const thread = await get<Thread>(`channels/${channel}/threads/${threadId}`);
+  const { channelId, threadId } = await params;
+  const thread = await request<Thread>(
+    `channels/${channelId}/threads/${threadId}`,
+  );
   if (!thread) {
     notFound();
   }
