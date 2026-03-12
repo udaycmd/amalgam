@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { Channel } from "@/types/interfaces";
+import type { ChannelInfo } from "@/types/interfaces";
 
 import { Outfit } from "next/font/google";
 import { Sidebar } from "@/components/sidebar";
@@ -22,7 +22,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const channels =
-    (await request<Channel[]>("channels", {
+    (await request<ChannelInfo[]>("channels", {
       next: { revalidate: 24 * 3600 },
     })) ?? [];
 

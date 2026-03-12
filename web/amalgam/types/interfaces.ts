@@ -1,4 +1,4 @@
-export interface Channel {
+export interface ChannelInfo {
   slug: string;
   name: string;
   desc: string;
@@ -6,37 +6,52 @@ export interface Channel {
 }
 
 export interface Post {
-  id: string;
-  threadId: string;
+  id: bigint;
+  threadId: bigint;
   author: string;
-  createdAt: string;
-  content: string;
-  imageUrl?: string;
+  createdAt: Date;
+  content: string | null;
+  media: string | null;
+  ucode: string | null;
+  op: boolean;
+  sage: boolean;
 }
 
-export interface Thread {
-  id: string;
-  channelId: string;
-  subject: string;
-  posts: Post[];
-  origin: Post;
+export interface ThreadInfo {
+  id: bigint;
+  bumpedAt: Date;
+  createdAt: Date;
   replyCount: number;
-  imageUrl: string;
-  lastInteracted: string;
-  locked: boolean;
+  isLocked: boolean;
+  isArchived: boolean;
+  op: Post;
+}
+
+export interface PaginatedThread extends ThreadInfo {
+  replies: Post[];
+  nxtCurr: string;
+}
+
+export interface PaginatedChannel {
+  chinfo: ChannelInfo;
+  threads: ThreadInfo[];
+  hasMore: boolean;
 }
 
 export interface SidebarProps {
-  channels: Channel[];
+  channels: ChannelInfo[];
 }
 
 export interface ThreadCardProps {
-  thread: Thread;
+  tinfo: ThreadInfo;
 }
 
 export interface ChannelPageProps {
   params: Promise<{
     channelId: string;
+  }>;
+  searchParams: Promise<{
+    page?: string;
   }>;
 }
 

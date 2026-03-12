@@ -8,7 +8,20 @@ const PAGE_LIMIT = 10;
 
 threadRouter.get("/", async (req, res) => {
   const { channel } = req.params as { channel: string };
-  const page = req.query.page ? parseInt(req.query.page as string) : 1;
+  const page = req.query.page ? parseInt(req.query.page as string) || 1 : 1;
+
+  const chinfo = await db.channel.findUnique({
+    where: { slug: channel },
+    omit: {
+      id: true,
+      threadLimit: true,
+      bumpLimit: true,
+    },
+  });
+
+  if (!chinfo) {
+    return res.status(404).json({ error: "channel not found" });
+  }
 
   const threads = await db.thread.findMany({
     where: {
@@ -18,17 +31,15 @@ threadRouter.get("/", async (req, res) => {
     orderBy: {
       bumpedAt: "desc",
     },
-    take: PAGE_LIMIT,
-    skip: (page - 1) * PAGE_LIMIT,
-    include: {
-      posts: {
-        where: { op: true },
-        take: 1,
-      },
+    omit: {
+      channelId: true,
     },
+    take: PAGE_LIMIT + 1,
+    skip: (page - 1) * PAGE_LIMIT,
   });
 
-  res.json(threads);
+  const hasMore = threads.length > PAGE_LIMIT && threads.pop();
+  res.json({ chinfo, threads, hasMore });
 });
 
 threadRouter.get("/:threadId", async (req, res) => {
@@ -44,7 +55,7 @@ threadRouter.get("/:threadId", async (req, res) => {
     : POST_LIMIT;
   const skipMeta: boolean = req.headers["Skip-Meta"] === "true";
 
-  let thread = undefined;
+  let thread = null;
 
   if (!skipMeta) {
     thread = await db.thread.findFirst({
@@ -60,6 +71,9 @@ threadRouter.get("/:threadId", async (req, res) => {
           take: 1,
         },
       },
+      omit: {
+        channelId: true,
+      },
     });
 
     if (!thread) {
@@ -67,7 +81,7 @@ threadRouter.get("/:threadId", async (req, res) => {
     }
   }
 
-  let replies = await db.post.findMany({
+  const replies = await db.post.findMany({
     where: {
       threadId: BigInt(threadId),
       op: false,
@@ -82,18 +96,23 @@ threadRouter.get("/:threadId", async (req, res) => {
       },
       skip: 1,
     }),
+    omit: {
+      op: true,
+      threadId: true,
+    },
   });
 
   const nxtCurr: string | undefined =
     replies.length === limit
       ? replies[replies.length - 1]?.id.toString()
       : undefined;
+  const op = thread?.posts?.[0] ?? null;
+  const { posts, ...tinfo } = thread ?? {};
 
   res.json({
-    ...(thread && {
-      thread: { ...thread, posts: [...thread.posts, ...replies] },
-    }),
-    ...(skipMeta && { replies }),
+    ...tinfo,
+    op,
+    replies,
     nxtCurr,
   });
 });

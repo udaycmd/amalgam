@@ -7,7 +7,13 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
   const { channelId, threadId } = await params;
   const thread = await request<Thread>(
     `channels/${channelId}/threads/${threadId}`,
+    {
+      next: {
+        revalidate: 300,
+      },
+    },
   );
+
   if (!thread) {
     notFound();
   }
