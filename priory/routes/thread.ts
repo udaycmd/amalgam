@@ -28,7 +28,7 @@ threadRouter.get("/", async (req, res) => {
     },
   });
 
-  res.json({ threads: [...threads] });
+  res.json(threads);
 });
 
 threadRouter.get("/:threadId", async (req, res) => {
@@ -89,7 +89,7 @@ threadRouter.get("/:threadId", async (req, res) => {
       ? replies[replies.length - 1]?.id.toString()
       : undefined;
 
-  return res.json({
+  res.json({
     ...(thread && {
       thread: { ...thread, posts: [...thread.posts, ...replies] },
     }),

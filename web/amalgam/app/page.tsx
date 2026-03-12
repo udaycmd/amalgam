@@ -6,7 +6,7 @@ export default async function Home() {
   const topThreads =
     (await request<Thread[]>("top", {
       next: { revalidate: 900 },
-    }).threads) ?? [];
+    })) ?? [];
 
   return (
     <div className="flex flex-col gap-7 p-6 md:p-12 max-w-8xl mx-auto w-full">

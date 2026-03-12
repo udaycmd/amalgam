@@ -25,7 +25,7 @@ router.use("/top", async (_, res) => {
     },
   });
 
-  res.json({ threads: [...topthreads] });
+  res.json(topthreads);
 });
 
 export default router;

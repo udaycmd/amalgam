@@ -6,7 +6,10 @@ import { notFound } from "next/navigation";
 
 export default async function ChannelPage({ params }: ChannelPageProps) {
   const { channelId } = await params;
-  const channel = await request<Channel>(`channels/${channelId}`);
+  const channel = await request<Channel>(`channels/${channelId}`, {
+    next: { revalidate: 24 * 3600 },
+  });
+
   if (!channel) {
     notFound();
   }
