@@ -1,3 +1,4 @@
+import type { PaginatedThread, ThreadInfo, Post } from "@/types/thread.js";
 import { Router } from "express";
 import db from "@/prisma/db.js";
 
@@ -13,7 +14,6 @@ threadRouter.get("/", async (req, res) => {
   const chinfo = await db.channel.findUnique({
     where: { slug: channel },
     omit: {
-      id: true,
       threadLimit: true,
       bumpLimit: true,
     },
@@ -71,9 +71,6 @@ threadRouter.get("/:threadId", async (req, res) => {
           take: 1,
         },
       },
-      omit: {
-        channelId: true,
-      },
     });
 
     if (!thread) {
@@ -97,7 +94,6 @@ threadRouter.get("/:threadId", async (req, res) => {
       skip: 1,
     }),
     omit: {
-      op: true,
       threadId: true,
     },
   });
@@ -106,15 +102,18 @@ threadRouter.get("/:threadId", async (req, res) => {
     replies.length === limit
       ? replies[replies.length - 1]?.id.toString()
       : undefined;
-  const op = thread?.posts?.[0] ?? null;
-  const { posts, ...tinfo } = thread ?? {};
+  let tinfo: ThreadInfo | undefined = undefined;
+
+  if (thread) {
+    const { posts, ...rest } = thread;
+    tinfo = { ...rest, op: posts[0] as Post };
+  }
 
   res.json({
-    ...tinfo,
-    op,
+    tinfo,
     replies,
     nxtCurr,
-  });
+  } as PaginatedThread);
 });
 
 export default threadRouter;

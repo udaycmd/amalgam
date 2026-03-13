@@ -1,10 +1,10 @@
 import { request } from "@/lib/utils";
-import { Thread } from "@/types/interfaces";
+import { ThreadInfo } from "@/types/interfaces";
 import { ThreadCard } from "@/components/thread-card";
 
 export default async function Home() {
   const topThreads =
-    (await request<Thread[]>("top", {
+    (await request<ThreadInfo[]>("top", {
       next: { revalidate: 900 },
     })) ?? [];
 
@@ -20,7 +20,7 @@ export default async function Home() {
       </div>
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         {topThreads.map((t) => (
-          <ThreadCard key={t.id} thread={t} />
+          <ThreadCard key={t.id} tinfo={t} />
         ))}
       </div>
     </div>

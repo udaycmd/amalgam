@@ -15,7 +15,7 @@ async function main() {
       update: {},
     });
 
-    console.log(`created channel with id: ${channel.id}`);
+    console.log(`created channel with slug: ${channel.slug}`);
   }
 
   console.log("seeding done.");

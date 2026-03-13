@@ -7,10 +7,10 @@ export interface ChannelInfo {
 
 export interface Post {
   id: bigint;
-  threadId: bigint;
+  header: string;
   author: string;
   createdAt: Date;
-  content: string | null;
+  content: string;
   media: string | null;
   ucode: string | null;
   op: boolean;
@@ -19,6 +19,7 @@ export interface Post {
 
 export interface ThreadInfo {
   id: bigint;
+  channelId: string;
   bumpedAt: Date;
   createdAt: Date;
   replyCount: number;
@@ -27,9 +28,10 @@ export interface ThreadInfo {
   op: Post;
 }
 
-export interface PaginatedThread extends ThreadInfo {
+export interface PaginatedThread {
+  tinfo?: ThreadInfo;
   replies: Post[];
-  nxtCurr: string;
+  nxtCurr?: string;
 }
 
 export interface PaginatedChannel {

@@ -18,12 +18,12 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
         </div>
         <CardHeader className="pt-1">
           <h4 className="line-clamp-2 font-medium text-md tracking-tight">
-            {thread.subject}
+            {tinfo.op.header}
           </h4>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="font-normal text-primary p-1 bg-teal-800 rounded-xs">
-              /{thread.channelId}
-            </span>
+            {/*<span className="font-normal text-primary p-1 bg-teal-800 rounded-xs">
+              /{tinfo.op.channel}
+            </span>*/}
             <span className="flex items-center gap-1">
               <Clock className="h-3 w-3" />
               {tinfo.bumpedAt.toLocaleString()}
@@ -32,13 +32,13 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
         </CardHeader>
         <CardContent>
           <p className="line-clamp-3 text-sm text-muted-foreground">
-            {thread.origin.content}
+            {tinfo.op.content}
           </p>
         </CardContent>
         <CardFooter className="pt-1 text-sm text-muted-foreground mt-auto items-center justify-between">
           <div className="flex items-center gap-1">
             <MessageCircle className="h-3 w-3" />
-            {thread.replyCount} replies
+            {tinfo.replyCount} replies
           </div>
         </CardFooter>
       </Card>
