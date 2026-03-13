@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import {
   PaginatedChannel,
   ChannelPageProps,
@@ -8,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { PenSquare } from "lucide-react";
 import { request } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import { Spinner } from "@/components/ui/spinner";
 import { ThreadCard } from "@/components/thread-card";
 import Link from "next/link";
 
@@ -34,14 +32,12 @@ export default async function ChannelPage({
   return (
     <div className="flex flex-col gap-10 p-6 md:p-12 max-w-8xl mx-auto w-full">
       <ChannelHeader chinfo={data.chinfo} />
-      <Suspense fallback={<Spinner />} key={currentPage}>
-        <ThreadList
-          channelId={channelId}
-          threads={data.threads}
-          hasMore={data.hasMore}
-          currentPage={currentPage}
-        />
-      </Suspense>
+      <ThreadList
+        channelId={channelId}
+        threads={data.threads}
+        hasMore={data.hasMore}
+        currentPage={currentPage}
+      />
     </div>
   );
 }
@@ -89,21 +85,45 @@ function ThreadList({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {threads.map((thread) => (
-            <ThreadCard key={String(thread.id)} thread={thread} />
+            <ThreadCard key={String(thread.id)} tinfo={thread} />
           ))}
         </div>
       )}
 
-      {hasMore && (
-        <div className="flex justify-center pt-4 pb-8">
+      {(true || currentPage > 1) && (
+        <div className="flex justify-center items-center gap-4 pt-4 pb-8">
           <Button
             asChild
             variant="outline"
-            className="w-full md:w-auto rounded-xs text-primary"
+            disabled={currentPage <= 1}
+            className="w-full md:w-auto rounded-xs text-primary disabled:opacity-50"
           >
-            <Link href={`/${channelId}?page=${currentPage + 1}`}>
-              Next Page &rarr;
-            </Link>
+            {currentPage > 1 ? (
+              <Link href={`/${channelId}?page=${currentPage - 1}`}>
+                &larr; Previous
+              </Link>
+            ) : (
+              <span>&larr; Previous</span>
+            )}
+          </Button>
+
+          <span className="text-sm text-muted-foreground font-medium">
+            {currentPage}
+          </span>
+
+          <Button
+            asChild
+            variant="outline"
+            disabled={!hasMore}
+            className="w-full md:w-auto rounded-xs text-primary disabled:opacity-50"
+          >
+            {hasMore ? (
+              <Link href={`/${channelId}?page=${currentPage + 1}`}>
+                Next &rarr;
+              </Link>
+            ) : (
+              <span>Next &rarr;</span>
+            )}
           </Button>
         </div>
       )}

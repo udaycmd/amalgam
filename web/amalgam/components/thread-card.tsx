@@ -21,9 +21,9 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
             {tinfo.op.header}
           </h4>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            {/*<span className="font-normal text-primary p-1 bg-teal-800 rounded-xs">
-              /{tinfo.op.channel}
-            </span>*/}
+            <span className="font-normal text-primary p-1 bg-teal-800 rounded-xs">
+              /{tinfo.channelId}
+            </span>
             <span className="flex items-center gap-1">
               <Clock className="h-3 w-3" />
               {tinfo.bumpedAt.toLocaleString()}
