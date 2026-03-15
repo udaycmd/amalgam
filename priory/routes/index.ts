@@ -1,11 +1,10 @@
 import type { Post, ThreadInfo } from "@/types/thread.js";
 import { Router } from "express";
+import config from "@/config.js";
 import channelRouter from "@/routes/channel.js";
 import db from "@/prisma/db.js";
 
 const router = Router();
-
-const TOP_THREAD_COUNT = 20;
 
 router.use("/channels", channelRouter);
 
@@ -17,7 +16,7 @@ router.use("/top", async (_, res) => {
     orderBy: {
       bumpedAt: "desc",
     },
-    take: TOP_THREAD_COUNT,
+    take: config.TOP_THREAD_COUNT,
     include: {
       posts: {
         where: { op: true },

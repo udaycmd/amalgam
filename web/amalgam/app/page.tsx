@@ -5,7 +5,7 @@ import { ThreadCard } from "@/components/thread-card";
 export default async function Home() {
   const topThreads =
     (await request<ThreadInfo[]>("top", {
-      next: { revalidate: 900 },
+      // next: { revalidate: 900 },
     })) ?? [];
 
   return (
@@ -18,7 +18,7 @@ export default async function Home() {
           See what&apos;s happening across channels.
         </p>
       </div>
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {topThreads.map((t) => (
           <ThreadCard key={t.id} tinfo={t} />
         ))}

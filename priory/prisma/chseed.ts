@@ -1,5 +1,8 @@
 /*
- * chseed.ts: channel seeder.
+ * chseed.ts: Channel seeder.
+ *
+ * Seed the DB with initial channel info.
+ * Used in both dev and prod environment.
  */
 
 import { channels } from "@/data/channels.js";

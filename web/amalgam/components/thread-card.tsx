@@ -14,7 +14,12 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
     <Link href="#" className="block group min-w-52px">
       <Card className="h-full overflow-hidden border-primary/20 hover:border-primary transition-colors pt-0 rounded-xs">
         <div className="relative overflow-hidden aspect-square mt-1 m-4">
-          <Image src={"#"} alt="image_here" fill className="object-cover" />
+          <Image
+            src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg"
+            alt="image_here"
+            fill
+            className="object-cover"
+          />
         </div>
         <CardHeader className="pt-1">
           <h4 className="line-clamp-2 font-medium text-md tracking-tight">

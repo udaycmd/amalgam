@@ -10,11 +10,12 @@
     "typecheck": "tsc --noEmit",
     "start": "node dist/app.js",
     "dev": "tsx watch app.ts",
-    "seed": "tsx prisma/chseed.ts",
+    "seed:channel": "tsx prisma/chseed.ts",
     "lint": "eslint"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.4.2",
+    "@faker-js/faker": "^10.3.0",
+    "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
@@ -22,13 +23,13 @@
     "pg": "^8.20.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^20",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
     "@types/pg": "^8.18.0",
-    "eslint": "^9",
+    "eslint": "^10.0.3",
     "prisma": "^7.5.0",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }

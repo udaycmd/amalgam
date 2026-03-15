@@ -1,11 +1,9 @@
 import type { PaginatedThread, ThreadInfo, Post } from "@/types/thread.js";
 import { Router } from "express";
+import config from "@/config.js";
 import db from "@/prisma/db.js";
 
 const threadRouter = Router({ mergeParams: true });
-
-const POST_LIMIT = 50;
-const PAGE_LIMIT = 10;
 
 threadRouter.get("/", async (req, res) => {
   const { channel } = req.params as { channel: string };
@@ -34,11 +32,12 @@ threadRouter.get("/", async (req, res) => {
     omit: {
       channelId: true,
     },
-    take: PAGE_LIMIT + 1,
-    skip: (page - 1) * PAGE_LIMIT,
+    take: config.THREAD_PER_PAGE_LIMIT + 1,
+    skip: (page - 1) * config.THREAD_PER_PAGE_LIMIT,
   });
 
-  const hasMore = threads.length > PAGE_LIMIT && threads.pop();
+  const hasMore =
+    threads.length > config.THREAD_PER_PAGE_LIMIT && threads.pop();
   res.json({ chinfo, threads, hasMore });
 });
 
@@ -52,7 +51,7 @@ threadRouter.get("/:threadId", async (req, res) => {
     : undefined;
   const limit: number = req.query.limit
     ? parseInt(req.query.limit as string)
-    : POST_LIMIT;
+    : config.POST_PER_CALL_LIMIT;
   const skipMeta: boolean = req.headers["Skip-Meta"] === "true";
 
   let thread = null;
