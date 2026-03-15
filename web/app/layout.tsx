@@ -23,7 +23,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const channels =
     (await request<ChannelInfo[]>("channels", {
-      next: { revalidate: 24 * 3600 },
+      next: { revalidate: 3600 },
     })) ?? [];
 
   return (
@@ -34,12 +34,12 @@ export default async function RootLayout({
         <div className="relative flex min-h-screen flex-col md:flex-row">
           <Sidebar channels={channels} />
           <div className="flex-1 flex flex-col min-w-0 z-0">
-            <header className="sticky top-0 z-9 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 md:hidden">
-              <div className="container flex h-15 items-center">
+            <header className="sticky top-0 z-9 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 lg:hidden">
+              <div className="flex h-14 items-center gap-3">
                 <MobileSideBar channels={channels} />
-                <div className="flex font-medium">
-                  <Link href="/">{org}</Link>
-                </div>
+                <Link href="/" className="text-lg font-medium">
+                  {org}
+                </Link>
               </div>
             </header>
             <main className="flex-1 w-full">{children}</main>

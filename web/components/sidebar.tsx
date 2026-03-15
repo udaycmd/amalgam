@@ -21,7 +21,7 @@ export function Sidebar({ channels }: SidebarProps) {
   const Org = env.NEXT_PUBLIC_ORG_NAME;
 
   return (
-    <div className="hidden bg-sidebar overflow-hidden md:block w-70 shrink-0 min-h-screen sticky">
+    <div className="hidden bg-sidebar overflow-hidden lg:block w-70 shrink-0 min-h-screen sticky">
       <div className="flex flex-col h-full">
         <div className="flex h-17 p-5 border-b border-primary">
           <Link className="text-xl font-semibold text-primary" href="/">
@@ -65,7 +65,7 @@ export function MobileSideBar({ channels }: SidebarProps) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden mr-1">
+        <Button variant="ghost" size="icon" className="mr-1">
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle Menu</span>
         </Button>
