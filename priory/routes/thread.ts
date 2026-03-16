@@ -37,7 +37,7 @@ threadRouter.get("/", async (req, res) => {
   });
 
   const hasMore =
-    threads.length > config.THREAD_PER_PAGE_LIMIT && threads.pop();
+    threads.length > config.THREAD_PER_PAGE_LIMIT && !!threads.pop();
   res.json({ chinfo, threads, hasMore });
 });
 
@@ -52,7 +52,7 @@ threadRouter.get("/:threadId", async (req, res) => {
   const limit: number = req.query.limit
     ? parseInt(req.query.limit as string)
     : config.POST_PER_CALL_LIMIT;
-  const skipMeta: boolean = req.headers["Skip-Meta"] === "true";
+  const skipMeta = req.get("Skip-Meta");
 
   let thread = null;
 

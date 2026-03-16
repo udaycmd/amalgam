@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "start": "node dist/app.js",
     "dev": "tsx watch app.ts",
-    "seed:channel": "tsx prisma/chseed.ts",
+    "seed:channel": "tsx prisma/seeds/chseed.ts",
+    "seed": "npx prisma db seed",
     "lint": "eslint"
   },
   "dependencies": {
