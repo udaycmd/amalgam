@@ -5,7 +5,7 @@ import {
 } from "@/types/interfaces";
 import { Button } from "@/components/ui/button";
 import { PenSquare } from "lucide-react";
-import { request } from "@/lib/utils";
+import { request, cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { ThreadCard } from "@/components/thread-card";
 import Link from "next/link";
@@ -90,40 +90,36 @@ function ThreadList({
         </div>
       )}
 
-      {(true || currentPage > 1) && (
+      {(hasMore || currentPage > 1) && (
         <div className="flex justify-center items-center gap-4 pt-4 pb-8">
           <Button
             asChild
             variant="outline"
-            disabled={currentPage <= 1}
-            className="w-full md:w-auto rounded-xs text-primary disabled:opacity-50"
-          >
-            {currentPage > 1 ? (
-              <Link href={`/${channelId}?page=${currentPage - 1}`}>
-                &larr; Previous
-              </Link>
-            ) : (
-              <span>&larr; Previous</span>
+            className={cn(
+              "w-full md:w-auto rounded-xs text-primary",
+              currentPage <= 1 ? "hidden" : "",
             )}
+          >
+            <Link href={`/${channelId}?page=${currentPage - 1}`}>
+              &larr; Previous
+            </Link>
           </Button>
 
-          <span className="text-sm text-muted-foreground font-medium">
-            {currentPage}
+          <span className="text-sm text-primary font-medium">
+            [ {currentPage} ]
           </span>
 
           <Button
             asChild
             variant="outline"
-            disabled={!hasMore}
-            className="w-full md:w-auto rounded-xs text-primary disabled:opacity-50"
-          >
-            {hasMore ? (
-              <Link href={`/${channelId}?page=${currentPage + 1}`}>
-                Next &rarr;
-              </Link>
-            ) : (
-              <span>Next &rarr;</span>
+            className={cn(
+              "w-full md:w-auto rounded-xs text-primary",
+              !hasMore ? "hidden" : "",
             )}
+          >
+            <Link href={`/${channelId}?page=${currentPage + 1}`}>
+              Next &rarr;
+            </Link>
           </Button>
         </div>
       )}

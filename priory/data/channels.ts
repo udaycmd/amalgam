@@ -1,6 +1,6 @@
-import type { Channel } from "@/types/channel.js";
+import type { ChannelInfo } from "@/types/channel.js";
 
-export const channels: Channel[] = [
+export const channels: ChannelInfo[] = [
   {
     slug: "th",
     name: "Technology",

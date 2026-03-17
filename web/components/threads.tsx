@@ -4,7 +4,7 @@ import { PaginatedThread, Post } from "@/types/interfaces";
 import { useState, useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { request } from "@/lib/utils";
+import { getThread } from "@/actions/thread";
 
 export function Threads({
   init,
@@ -25,9 +25,7 @@ export function Threads({
     }
 
     startTransition(async () => {
-      const nxt = await request<PaginatedThread>(
-        `channels/${channelId}/threads/${threadId}?cursor=${nxtCurr}`,
-      );
+      const nxt = await getThread(threadId, channelId, nxtCurr);
 
       if (nxt) {
         setReplies((prev) => [...prev, ...nxt.replies]);
@@ -45,7 +43,7 @@ export function Threads({
 
       <div className="flex flex-col gap-4">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-          Replies ({replies.length})
+          Replies ({replies.length - 1})
         </h2>
         {replies.map((reply) => (
           <div key={reply.id} className="p-4 rounded-lg border bg-card">
