@@ -1,6 +1,7 @@
 import { request } from "@/lib/utils";
-import { ThreadInfo } from "@/types/interfaces";
+import { ThreadInfo } from "@/types";
 import { ThreadCard } from "@/components/thread-card";
+import { Main } from "@/components/main";
 
 export default async function Home() {
   const topThreads =
@@ -9,7 +10,7 @@ export default async function Home() {
     })) ?? [];
 
   return (
-    <div className="flex flex-col gap-7 p-6 md:p-12 max-w-8xl mx-auto w-full">
+    <Main>
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-primary">
           Popular Threads 📢
@@ -23,6 +24,6 @@ export default async function Home() {
           <ThreadCard key={t.id} tinfo={t} />
         ))}
       </div>
-    </div>
+    </Main>
   );
 }

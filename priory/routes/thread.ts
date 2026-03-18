@@ -1,5 +1,10 @@
-import type { PaginatedThread, ThreadInfo, Post } from "@/types/thread.js";
-import type { ChannelInfo, PaginatedChannel } from "@/types/channel.js";
+import type {
+  ChannelInfo,
+  PaginatedChannel,
+  PaginatedThread,
+  ThreadInfo,
+  Post,
+} from "@shared/types/index.js";
 import { Router } from "express";
 import config from "@/config.js";
 import db from "@/prisma/db.js";

@@ -1,6 +1,6 @@
 "use server";
 
-import type { PaginatedThread } from "@/types/interfaces";
+import type { PaginatedThread } from "@/types";
 import { request } from "@/lib/utils";
 
 export async function getThread(
@@ -10,5 +10,10 @@ export async function getThread(
 ): Promise<PaginatedThread | null> {
   return request<PaginatedThread>(
     `channels/${channelId}/threads/${threadId}?cursor=${cursor ?? ""}`,
+    {
+      headers: {
+        "Skip-Meta": "skip",
+      },
+    },
   );
 }

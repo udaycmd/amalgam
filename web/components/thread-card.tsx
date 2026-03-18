@@ -1,4 +1,4 @@
-import { ThreadCardProps } from "@/types/interfaces";
+import { ThreadCardProps } from "@/types";
 import {
   Card,
   CardHeader,
@@ -27,6 +27,7 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
             width={400}
             height={300}
             className="w-full h-auto max-h-64 object-contain"
+            loading="eager"
           />
         </div>
 

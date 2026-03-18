@@ -1,4 +1,4 @@
-import type { Post, ThreadInfo } from "@/types/thread.js";
+import type { Post, ThreadInfo } from "@shared/types/index.js";
 import { Router } from "express";
 import config from "@/config.js";
 import channelRouter from "@/routes/channel.js";

@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarProps } from "@/types/interfaces";
+import { SidebarProps } from "@/types";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -44,7 +44,7 @@ export function Sidebar({ channels }: SidebarProps) {
                     <Button
                       variant={isActive ? "secondary" : "ghost"}
                       className={cn(
-                        "justify-start w-full cursor-pointer",
+                        "justify-start w-full cursor-pointer rounded-xs",
                         isActive && "font-semibold",
                       )}
                     >
@@ -98,7 +98,7 @@ export function MobileSideBar({ channels }: SidebarProps) {
                     <Button
                       variant={isActive ? "secondary" : "ghost"}
                       className={cn(
-                        "justify-start w-full cursor-pointer",
+                        "justify-start w-full cursor-pointer rounded-xs",
                         isActive && "font-medium",
                       )}
                     >

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { ChannelInfo } from "@/types/interfaces";
+import type { ChannelInfo } from "@/types";
 
 import { Outfit } from "next/font/google";
 import { Sidebar } from "@/components/sidebar";
@@ -27,7 +27,7 @@ export default async function RootLayout({
     })) ?? [];
 
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
         className={`${baseFont.className} antialiased min-h-screen bg-background`}
       >

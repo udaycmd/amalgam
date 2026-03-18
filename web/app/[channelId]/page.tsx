@@ -1,9 +1,6 @@
-import {
-  PaginatedChannel,
-  ChannelPageProps,
-  ChannelInfo,
-} from "@/types/interfaces";
+import { PaginatedChannel, ChannelPageProps, ChannelInfo } from "@/types";
 import { Button } from "@/components/ui/button";
+import { Main } from "@/components/main";
 import { PenSquare } from "lucide-react";
 import { request, cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
@@ -30,7 +27,7 @@ export default async function ChannelPage({
   }
 
   return (
-    <div className="flex flex-col gap-7 p-6 md:p-12 max-w-8xl mx-auto w-full">
+    <Main>
       <ChannelHeader chinfo={data.chinfo} />
       <ThreadList
         channelId={channelId}
@@ -38,7 +35,7 @@ export default async function ChannelPage({
         hasMore={data.hasMore}
         currentPage={currentPage}
       />
-    </div>
+    </Main>
   );
 }
 

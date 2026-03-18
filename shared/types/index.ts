@@ -1,3 +1,10 @@
+export type ChannelInfo = {
+  slug: string;
+  name: string;
+  desc: string;
+  nsfw: boolean;
+};
+
 export type Post = {
   id: bigint;
   header: string;
@@ -25,4 +32,10 @@ export type PaginatedThread = {
   tinfo?: ThreadInfo;
   replies: Post[];
   nxtCurr?: string;
+};
+
+export type PaginatedChannel = {
+  chinfo: ChannelInfo;
+  threads: ThreadInfo[];
+  hasMore: boolean;
 };

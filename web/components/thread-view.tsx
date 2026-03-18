@@ -1,9 +1,10 @@
 "use client";
 
-import { PaginatedThread, Post } from "@/types/interfaces";
+import { PaginatedThread, Post } from "@/types";
 import { useState, useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PostItem } from "@/components/post";
 import { getThread } from "@/actions/thread";
 
 export function ThreadView({
@@ -15,6 +16,7 @@ export function ThreadView({
   channelId: string;
   threadId: string;
 }) {
+  const tinfo = init.tinfo;
   const [replies, setReplies] = useState<Post[]>(init.replies);
   const [nxtCurr, setNextCursor] = useState(init.nxtCurr);
   const [isPending, startTransition] = useTransition();
@@ -35,22 +37,16 @@ export function ThreadView({
   };
 
   return (
-    <div className="flex flex-col gap-8">
-      {/*<section className="border-b pb-8">
-        <h1 className="text-2xl font-bold">{init.tinfo?.op.header}</h1>
-        <p className="mt-4 text-lg">{init.tinfo?.op.content}</p>
-      </section>
+    <div className="space-y-4">
+      <PostItem
+        post={tinfo?.op as Post}
+        isOriginal
+        isLocked={tinfo?.isLocked}
+      />
 
-      <div className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-          Replies ({replies.length - 1})
-        </h2>
-        {replies.map((reply) => (
-          <div key={reply.id} className="p-4 rounded-lg border bg-card">
-            {reply.content}
-          </div>
-        ))}
-      </div>*/}
+      {replies.map((r) => (
+        <PostItem key={r.id} post={r} />
+      ))}
 
       {nxtCurr && (
         <div className="flex justify-center">

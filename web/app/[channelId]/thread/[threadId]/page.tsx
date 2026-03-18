@@ -1,5 +1,6 @@
-import { PaginatedThread, ThreadPageProps } from "@/types/interfaces";
+import { PaginatedThread, ThreadPageProps } from "@/types";
 import { Suspense } from "react";
+import { Main } from "@/components/main";
 import { request } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -9,7 +10,7 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
   const { channelId, threadId } = await params;
 
   return (
-    <div className="flex flex-col gap-7 p-6 md:p-12 max-w-8xl mx-auto w-full">
+    <Main>
       <Suspense
         fallback={
           <div className="flex items-center justify-center">
@@ -19,7 +20,7 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
       >
         <ThreadLoader channelId={channelId} threadId={threadId} />
       </Suspense>
-    </div>
+    </Main>
   );
 }
 
