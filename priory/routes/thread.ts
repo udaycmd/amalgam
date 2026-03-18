@@ -1,8 +1,8 @@
 import type { PaginatedThread, ThreadInfo, Post } from "@/types/thread.js";
+import type { ChannelInfo, PaginatedChannel } from "@/types/channel.js";
 import { Router } from "express";
 import config from "@/config.js";
 import db from "@/prisma/db.js";
-import type { ChannelInfo, PaginatedChannel } from "@/types/channel.js";
 
 const threadRouter = Router({ mergeParams: true });
 
@@ -53,7 +53,7 @@ threadRouter.get("/", async (req, res) => {
   });
 
   const hasMore =
-    threads.length > config.THREAD_PER_PAGE_LIMIT && !!threads.pop();
+    topThreads.length > config.THREAD_PER_PAGE_LIMIT && !!topThreads.pop();
 
   res.json({ chinfo, threads: topThreads, hasMore } satisfies PaginatedChannel);
 });

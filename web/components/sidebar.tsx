@@ -34,22 +34,28 @@ export function Sidebar({ channels }: SidebarProps) {
               All Channels
             </h4>
             <div className="grid gap-1">
-              {channels.map((c) => (
-                <Link key={c.slug} href={`/${c.slug}`}>
-                  <Button
-                    variant={pathname === `/${c.slug}` ? "secondary" : "ghost"}
-                    className={cn(
-                      "justify-start w-full cursor-pointer",
-                      pathname === `/${c.slug}` && "font-semibold",
-                    )}
-                  >
-                    <span className="mr-1 text-muted-foreground">
-                      /{c.slug}
-                    </span>
-                    {c.name}
-                  </Button>
-                </Link>
-              ))}
+              {channels.map((c) => {
+                const isActive =
+                  pathname === `/${c.slug}` ||
+                  pathname.startsWith(`/${c.slug}/`);
+
+                return (
+                  <Link key={c.slug} href={`/${c.slug}`}>
+                    <Button
+                      variant={isActive ? "secondary" : "ghost"}
+                      className={cn(
+                        "justify-start w-full cursor-pointer",
+                        isActive && "font-semibold",
+                      )}
+                    >
+                      <span className="mr-1 text-muted-foreground">
+                        /{c.slug}
+                      </span>
+                      {c.name}
+                    </Button>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </ScrollArea>
@@ -78,26 +84,32 @@ export function MobileSideBar({ channels }: SidebarProps) {
               All Channels
             </h4>
             <div className="grid gap-1">
-              {channels.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={`/${c.slug}`}
-                  onClick={() => setOpen(false)}
-                >
-                  <Button
-                    variant={pathname === `/${c.slug}` ? "secondary" : "ghost"}
-                    className={cn(
-                      "justify-start w-full cursor-pointer",
-                      pathname === `/${c.slug}` && "font-medium",
-                    )}
+              {channels.map((c) => {
+                const isActive =
+                  pathname === `/${c.slug}` ||
+                  pathname.startsWith(`/${c.slug}/`);
+
+                return (
+                  <Link
+                    key={c.slug}
+                    href={`/${c.slug}`}
+                    onClick={() => setOpen(false)}
                   >
-                    <span className="mr-1 text-muted-foreground">
-                      /{c.slug}
-                    </span>
-                    {c.name}
-                  </Button>
-                </Link>
-              ))}
+                    <Button
+                      variant={isActive ? "secondary" : "ghost"}
+                      className={cn(
+                        "justify-start w-full cursor-pointer",
+                        isActive && "font-medium",
+                      )}
+                    >
+                      <span className="mr-1 text-muted-foreground">
+                        /{c.slug}
+                      </span>
+                      {c.name}
+                    </Button>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </ScrollArea>

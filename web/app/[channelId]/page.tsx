@@ -30,7 +30,7 @@ export default async function ChannelPage({
   }
 
   return (
-    <div className="flex flex-col gap-10 p-6 md:p-12 max-w-8xl mx-auto w-full">
+    <div className="flex flex-col gap-7 p-6 md:p-12 max-w-8xl mx-auto w-full">
       <ChannelHeader chinfo={data.chinfo} />
       <ThreadList
         channelId={channelId}
@@ -83,7 +83,7 @@ function ThreadList({
           No threads survived. Be the first to start one!
         </span>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2">
           {threads.map((thread) => (
             <ThreadCard key={String(thread.id)} tinfo={thread} />
           ))}

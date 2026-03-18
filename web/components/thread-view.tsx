@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getThread } from "@/actions/thread";
 
-export function Threads({
+export function ThreadView({
   init,
   channelId,
   threadId,
@@ -36,7 +36,7 @@ export function Threads({
 
   return (
     <div className="flex flex-col gap-8">
-      <section className="border-b pb-8">
+      {/*<section className="border-b pb-8">
         <h1 className="text-2xl font-bold">{init.tinfo?.op.header}</h1>
         <p className="mt-4 text-lg">{init.tinfo?.op.content}</p>
       </section>
@@ -50,21 +50,21 @@ export function Threads({
             {reply.content}
           </div>
         ))}
-      </div>
+      </div>*/}
 
       {nxtCurr && (
-        <div className="flex justify-center py-6">
-          <Button
-            onClick={loadMore}
-            disabled={isPending}
-            variant="outline"
-            className="min-w-140px"
-          >
-            {isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin mr-2" />
-            ) : null}
-            {isPending ? "Loading..." : "Show more replies"}
-          </Button>
+        <div className="flex justify-center">
+          {isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Button
+              onClick={loadMore}
+              variant="outline"
+              className="rounded-xs text-primary cursor-pointer"
+            >
+              Load More Replies
+            </Button>
+          )}
         </div>
       )}
     </div>

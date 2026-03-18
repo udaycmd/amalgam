@@ -16,7 +16,7 @@ router.use("/top", async (_, res) => {
     orderBy: {
       bumpedAt: "desc",
     },
-    take: config.TOP_THREAD_COUNT,
+    take: config.THREAD_PER_PAGE_LIMIT,
     include: {
       posts: {
         where: { op: true },
