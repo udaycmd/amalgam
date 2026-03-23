@@ -5,6 +5,7 @@ import { PenSquare } from "lucide-react";
 import { request, cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { ThreadCard } from "@/components/thread-card";
+import { NewThreadDialog } from "@/components/new-thread-dialog";
 import Link from "next/link";
 
 export default async function ChannelPage({
@@ -39,15 +40,6 @@ export default async function ChannelPage({
   );
 }
 
-function NewThreadButton({ text }: { text?: string }) {
-  return (
-    <Button className="w-full md:w-auto cursor-pointer rounded-xs">
-      <PenSquare className="mr-2 h-4 w-4" />
-      {text || "Start new thread"}
-    </Button>
-  );
-}
-
 function ChannelHeader({ chinfo }: { chinfo: ChannelInfo }) {
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -57,7 +49,7 @@ function ChannelHeader({ chinfo }: { chinfo: ChannelInfo }) {
         </h1>
         <p className="text-muted-foreground">{chinfo.desc}</p>
       </div>
-      <NewThreadButton />
+      <NewThreadDialog channelId={chinfo.slug} />
     </div>
   );
 }
@@ -93,7 +85,7 @@ function ThreadList({
             asChild
             variant="outline"
             className={cn(
-              "w-full md:w-auto rounded-xs text-primary",
+              "rounded-xs text-primary text-sm",
               currentPage <= 1 ? "hidden" : "",
             )}
           >
@@ -110,7 +102,7 @@ function ThreadList({
             asChild
             variant="outline"
             className={cn(
-              "w-full md:w-auto rounded-xs text-primary",
+              "rounded-xs text-primary text-sm",
               !hasMore ? "hidden" : "",
             )}
           >

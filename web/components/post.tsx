@@ -44,7 +44,7 @@ export function PostItem({ post, isOriginal, isLocked }: PostItemProps) {
             />
           </div>
         )}
-        <p className="mt-2 w-full text-primary whitespace-pre-wrap border p-4px bg-gray-700 text-justify text-sm wrap-break-word rounded-xs">
+        <p className="mt-2 w-full text-primary whitespace-pre-wrap border p-4px bg-gray-700 text-justify text-sm wrap-break-word rounded-xs overflow-hidden">
           {post.content}
         </p>
       </div>
