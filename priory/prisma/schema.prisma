@@ -40,10 +40,11 @@ model Thread {
 }
 
 model Channel {
-  slug String  @id
-  name String
-  desc String
-  nsfw Boolean @default(false)
+  slug      String  @id
+  name      String
+  desc      String
+  nsfw      Boolean @default(false)
+  mediaType String  @default("image")
 
   threadLimit Int @default(100)
   bumpLimit   Int @default(150)
