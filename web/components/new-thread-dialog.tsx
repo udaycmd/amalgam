@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { PenSquare, ImagePlus, Film, X, ShieldCheck, Loader2 } from "lucide-react";
+import {
+  PenSquare,
+  ImagePlus,
+  Film,
+  X,
+  CheckCircle2,
+  RefreshCw,
+  Loader2,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -208,57 +216,53 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
           Start new thread
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-xs bg-sidebar sm:max-w-md p-0 gap-0 overflow-hidden border-primary/30">
-        {/* Header bar */}
-        <DialogHeader className="px-4 py-3 bg-gradient-to-r from-indigo-950/60 to-blue-950/40 border-b border-primary/15">
+      <DialogContent className="rounded-xs bg-sidebar max-w-md sm:max-w-lg p-0 gap-0 overflow-hidden border-primary/30">
+        <DialogHeader className="px-4 py-3 bg-linear-to-r from-indigo-950/40 to-blue-950/60 border-b border-primary/30">
           <DialogTitle className="text-[15px] font-semibold tracking-wide text-primary/90">
             Create a new thread
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col">
-          {/* Form table - 4chan style name/value rows */}
-          <div className="border-b border-primary/10">
-            {/* Subject row */}
-            <div className="flex items-center border-b border-primary/10">
-              <label className="shrink-0 w-24 px-3 py-2.5 text-xs font-semibold text-muted-foreground bg-indigo-950/20 border-r border-primary/10 select-none">
+          <div className="border-b border-primary/30">
+            <div className="flex border-b border-primary/30">
+              <label className="shrink-0 w-24 px-3 py-2.5 text-sm font-semibold text-muted-foreground bg-indigo-950/40 border-r border-primary/30 select-none">
                 Subject
               </label>
               <div className="flex-1 px-2 py-1.5">
                 <Input
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  placeholder="Thread subject"
-                  className="h-8 text-sm border-0 bg-transparent shadow-none focus-visible:ring-0 px-1"
+                  placeholder="Thread Subject"
+                  className="text-sm rounded-xs border-0 bg-transparent shadow-none focus-visible:ring-0 px-1"
                 />
               </div>
             </div>
 
-            {/* Comment row */}
-            <div className="flex border-b border-primary/10">
-              <label className="shrink-0 w-24 px-3 py-2.5 text-xs font-semibold text-muted-foreground bg-indigo-950/20 border-r border-primary/10 select-none">
+            <div className="flex border-b border-primary/30">
+              <label className="shrink-0 w-24 px-3 py-2.5 text-sm font-semibold text-muted-foreground bg-indigo-950/40 border-r border-primary/30 select-none">
                 Comment
               </label>
               <div className="flex-1 px-2 py-1.5">
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Write your comment..."
-                  rows={5}
-                  className="w-full rounded-sm bg-background/50 border border-primary/10 p-2 text-sm text-foreground placeholder:text-muted-foreground resize-y outline-none focus:border-ring/50 transition-colors"
+                  placeholder="Write your thoughts here..."
+                  rows={7}
+                  className="w-full rounded-xs bg-transparent border border-primary/20 p-1 text-sm text-foreground placeholder:text-muted-foreground resize-y outline-none"
                 />
               </div>
             </div>
 
-            {/* File upload row */}
-            <div className="flex items-center border-b border-primary/10">
-              <label className="shrink-0 w-24 px-3 py-2.5 text-xs font-semibold text-muted-foreground bg-indigo-950/20 border-r border-primary/10 select-none">
+            <div className="flex border-b border-primary/30">
+              <label className="shrink-0 w-24 px-3 py-2.5 text-sm font-semibold text-muted-foreground bg-indigo-950/40 border-r border-primary/30 select-none">
                 File
               </label>
               <div className="flex-1 px-2 py-1.5 flex items-center gap-2">
                 <input
                   ref={imageInputRef}
                   type="file"
+                  items-center
                   accept="image/png,image/jpeg,image/gif,image/webp"
                   className="hidden"
                   onChange={(e) => handleMediaSelect(e, "image")}
@@ -274,7 +278,7 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-7 text-xs rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/30"
+                  className="text-sm rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/40"
                   onClick={() => imageInputRef.current?.click()}
                 >
                   <ImagePlus className="h-3.5 w-3.5" />
@@ -284,56 +288,54 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-7 text-xs rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/30"
+                  className="text-sm rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/40"
                   onClick={() => videoInputRef.current?.click()}
                 >
                   <Film className="h-3.5 w-3.5" />
                   Video
                 </Button>
                 {mediaFile && (
-                  <span className="text-[11px] text-muted-foreground truncate max-w-[120px]">
+                  <span className="text-xs text-primary truncate bg-blue-700 p-1 px-2 rounded-xl">
                     {mediaFile.name}
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Media Preview */}
             {mediaPreview && (
-              <div className="relative px-4 py-3 border-b border-primary/10 bg-background/30">
+              <div className="relative px-4 py-3 border-b border-primary/30 bg-transparent">
                 <button
                   type="button"
                   onClick={clearMedia}
-                  className="absolute top-2 right-2 p-1 rounded-full bg-destructive/80 hover:bg-destructive text-white cursor-pointer transition-colors z-10"
+                  className="absolute top-2 right-2 p-1 rounded-full bg-destructive/80 hover:bg-destructive text-primary cursor-pointer transition-colors z-10"
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-4 w-4" />
                 </button>
                 {mediaType === "image" ? (
                   <img
                     src={mediaPreview}
                     alt="Preview"
-                    className="max-h-40 rounded-sm object-contain mx-auto"
+                    className="max-h-40 rounded-xs object-contain mx-auto"
                   />
                 ) : (
                   <video
                     src={mediaPreview}
                     controls
-                    className="max-h-40 rounded-sm mx-auto"
+                    className="max-h-40 rounded-xs mx-auto"
                   />
                 )}
               </div>
             )}
 
-            {/* Captcha row */}
-            <div className="flex border-b border-primary/10">
-              <label className="shrink-0 w-24 px-3 py-2.5 text-xs font-semibold text-muted-foreground bg-indigo-950/20 border-r border-primary/10 select-none">
+            <div className="flex border-b border-primary/30">
+              <label className="shrink-0 w-24 px-3 py-2.5 text-sm font-semibold text-muted-foreground bg-indigo-950/40 border-r border-primary/30 select-none">
                 Captcha
               </label>
               <div className="flex-1 px-2 py-2">
                 {captchaVerified ? (
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1.5 text-emerald-400">
-                      <ShieldCheck className="h-4 w-4" />
+                    <div className="flex items-center gap-1.5 text-green-600">
+                      <CheckCircle2 className="h-4 w-4" />
                       <span className="text-xs font-medium">Verified</span>
                     </div>
                     <div className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -348,17 +350,17 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
                     <div className="flex items-center gap-2">
                       <canvas
                         ref={canvasRef}
-                        className="rounded-sm border border-primary/15 h-[38px] w-[150px]"
-                        style={{ imageRendering: "pixelated" }}
+                        className="rounded-xs border border-primary/35 h-10 w-38"
+                        style={{ imageRendering: "smooth" }}
                       />
                       <Button
                         type="button"
                         variant="ghost"
-                        size="sm"
-                        className="h-7 text-[11px] text-muted-foreground hover:text-primary cursor-pointer px-2"
+                        size="icon"
+                        className="cursor-pointer p-2 rounded-full h-6 w-6 group"
                         onClick={resetCaptcha}
                       >
-                        New
+                        <RefreshCw className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
                       </Button>
                     </div>
                     <div className="flex items-center gap-2">
@@ -375,20 +377,20 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
                           }
                         }}
                         placeholder="Type the text above"
-                        className={`h-7 text-sm flex-1 rounded-xs px-2 ${captchaError ? "border-destructive ring-destructive/30 ring-2" : ""}`}
+                        className={`h-7 text-xs flex-1 rounded-xs px-2 ${captchaError ? "border-destructive ring-destructive/30 ring-2" : ""}`}
                       />
                       <Button
                         type="button"
                         variant="outline"
                         size="sm"
-                        className="h-7 text-xs rounded-xs cursor-pointer border-primary/20"
+                        className="h-7 text-xs rounded-xs cursor-pointer border-primary/30"
                         onClick={verifyCaptcha}
                       >
                         Verify
                       </Button>
                     </div>
                     {captchaError && (
-                      <p className="text-[11px] text-destructive">
+                      <p className="text-xs text-destructive">
                         Incorrect captcha. Try again.
                       </p>
                     )}
@@ -396,20 +398,19 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
                 )}
               </div>
             </div>
-          </div>
 
-          {/* Submit row */}
-          <div className="px-4 py-3 flex items-center justify-between bg-indigo-950/10">
-            <p className="text-[11px] text-muted-foreground">
-              Max file size: 4 MB
-            </p>
-            <Button
-              type="submit"
-              disabled={!captchaVerified || !comment.trim()}
-              className="rounded-xs cursor-pointer text-xs h-8 px-5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40"
-            >
-              Post
-            </Button>
+            <div className="flex h-10 items-center justify-between p-3">
+              <span className="text-xs font-semibold text-primary">
+                *Max file size: 4 MB
+              </span>
+              <Button
+                type="submit"
+                disabled={!captchaVerified}
+                className="rounded-xs cursor-pointer h-7 text-primary text-xs px-6 bg-indigo-950/40 hover:bg-indigo-950/80 border border-primary/30"
+              >
+                Post
+              </Button>
+            </div>
           </div>
         </form>
       </DialogContent>
