@@ -1,13 +1,16 @@
+// ---  Data Object Specifications ---
+
 export type ChannelInfo = {
   slug: string;
   name: string;
   desc: string;
   nsfw: boolean;
+  mediaType: string;
 };
 
 export type Post = {
   id: bigint;
-  header: string;
+  header: string | null;
   author: string;
   createdAt: Date;
   content: string | null;
@@ -39,3 +42,16 @@ export type PaginatedChannel = {
   threads: ThreadInfo[];
   hasMore: boolean;
 };
+
+export type Status = Readonly<{
+  error: boolean;
+  message: string;
+}>;
+
+export type CreatePost = Readonly<{
+  name: string;
+  comment: string;
+  header: string | null;
+  mediaURL: string | null;
+  mediaType: string | null;
+}>;

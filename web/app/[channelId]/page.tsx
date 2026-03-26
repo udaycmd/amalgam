@@ -1,11 +1,10 @@
 import { PaginatedChannel, ChannelPageProps, ChannelInfo } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Main } from "@/components/main";
-import { PenSquare } from "lucide-react";
 import { request, cn } from "@/lib/utils";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ThreadCard } from "@/components/thread-card";
-import { NewThreadDialog } from "@/components/new-thread-dialog";
+import { PostForm } from "@/components/post-form";
 import Link from "next/link";
 
 export default async function ChannelPage({
@@ -25,6 +24,10 @@ export default async function ChannelPage({
 
   if (!data) {
     notFound();
+  }
+
+  if (data.threads.length === 0 && currentPage > 1) {
+    redirect(`/${channelId}`);
   }
 
   return (
@@ -49,7 +52,7 @@ function ChannelHeader({ chinfo }: { chinfo: ChannelInfo }) {
         </h1>
         <p className="text-muted-foreground">{chinfo.desc}</p>
       </div>
-      <NewThreadDialog channelId={chinfo.slug} />
+      <PostForm media={chinfo.mediaType} channelId={chinfo.slug} />
     </div>
   );
 }

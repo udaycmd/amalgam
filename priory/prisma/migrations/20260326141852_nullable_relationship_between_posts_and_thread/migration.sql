@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Post" ALTER COLUMN "threadId" DROP NOT NULL,
+ALTER COLUMN "header" DROP NOT NULL;

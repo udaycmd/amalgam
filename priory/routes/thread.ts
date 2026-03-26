@@ -4,6 +4,8 @@ import type {
   PaginatedThread,
   ThreadInfo,
   Post,
+  Status,
+  CreatePost,
 } from "@shared/types/index.js";
 import { Router } from "express";
 import config from "@/config.js";
@@ -24,7 +26,8 @@ threadRouter.get("/", async (req, res) => {
   })) satisfies ChannelInfo | null;
 
   if (!chinfo) {
-    return res.status(404).json({ error: "channel not found" });
+    res.status(404);
+    return;
   }
 
   const threads = await db.thread.findMany({
@@ -61,6 +64,43 @@ threadRouter.get("/", async (req, res) => {
     topThreads.length > config.THREAD_PER_PAGE_LIMIT && !!topThreads.pop();
 
   res.json({ chinfo, threads: topThreads, hasMore } satisfies PaginatedChannel);
+});
+
+threadRouter.post("/", async (req, res) => {
+  const { channel } = req.params as { channel: string };
+  const { name, header, comment, mediaURL, mediaType } = req.body as CreatePost;
+
+  try {
+    await db.$transaction(async (tx) => {
+      const op = await tx.post.create({
+        data: {
+          header: header,
+          author: name,
+          media: mediaURL,
+          content: comment,
+          op: true,
+        },
+      });
+
+      await tx.thread.create({
+        data: {
+          id: op.id,
+          channelId: channel,
+        },
+      });
+
+      await tx.post.update({
+        where: { id: op.id },
+        data: {
+          threadId: op.id,
+        },
+      });
+    });
+
+    res.json({ error: false, message: "post created" } satisfies Status);
+  } catch (e) {
+    res.json({ error: true, message: (e as Error).message } satisfies Status);
+  }
 });
 
 threadRouter.get("/:threadId", async (req, res) => {

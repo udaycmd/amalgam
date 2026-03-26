@@ -1,4 +1,4 @@
-export const CAPTCHA_DURATION = 60 * 3; // 3 minutes
+export const CAPTCHA_DURATION = 2; // 3 minutes
 
 export function generateCaptchaText(): string {
   const charset = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";

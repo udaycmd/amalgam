@@ -23,10 +23,19 @@ import {
   generateCaptchaText,
   CAPTCHA_DURATION,
 } from "@/lib/captcha";
+import { postThread } from "@/actions/thread";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
-export function NewThreadDialog({ channelId }: { channelId: string }) {
+export function PostForm({
+  channelId,
+  isReply,
+  media,
+}: {
+  channelId: string;
+  isReply?: boolean;
+  media: string;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>("unknown");
   const [subject, setSubject] = useState<string>("");
@@ -123,8 +132,8 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
     const file = e.target.files?.[0]; // select the first known file
     if (!file) return;
 
-    if (file.size > MAX_FILE_SIZE) {
-      alert("File exceeds the 4MB limit.");
+    if (file.size > MAX_FILE_SIZE || file.size == 0) {
+      alert("Invalid file size.");
       e.target.value = "";
       return;
     }
@@ -141,9 +150,30 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
     setMediaPreview(URL.createObjectURL(file));
   }
 
-  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
     if (!captchaVerified) return;
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("header", subject);
+    formData.append("comment", comment);
+
+    if (mediaFile) {
+      formData.append("media", mediaFile);
+      formData.append("mediaType", mediaType as string);
+    }
+
+    const res = await postThread(formData, channelId);
+
+    if (res.error) {
+      alert(res.message);
+      console.error(res.message);
+    } else {
+      alert("Post Added!");
+      console.log(res.message);
+    }
+
     setOpen(false);
     setSubject("");
     setComment("");
@@ -159,7 +189,7 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
           Start new thread
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-xs bg-sidebar max-w-md sm:max-w-lg p-0 gap-0 overflow-hidden border-primary/30">
+      <DialogContent className="rounded-xs bg-sidebar max-w-md sm:max-w-lg p-0 gap-0 overflow-hidden border border-primary/30">
         <DialogHeader className="px-4 py-3 bg-linear-to-r from-indigo-950/40 to-blue-950/60 border-b border-primary/30">
           <DialogTitle className="text-[15px] font-semibold tracking-wide text-primary/90">
             Create a new thread
@@ -256,7 +286,10 @@ export function NewThreadDialog({ channelId }: { channelId: string }) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="text-sm rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/40"
+                  className={cn(
+                    "text-sm rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/40",
+                    media === "image" ? "hidden" : "",
+                  )}
                   onClick={() => videoInputRef.current?.click()}
                 >
                   <Film className="h-3.5 w-3.5" />

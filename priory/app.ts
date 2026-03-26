@@ -8,7 +8,8 @@ bigIntJson();
 
 const app = express();
 
-app.use(express.json({ limit: 2048 }));
+app.use(express.json({ limit: 1024 * 8 }));
+app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use("/api/v1", apiRouter);
 
