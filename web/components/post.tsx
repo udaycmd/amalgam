@@ -30,18 +30,28 @@ export function PostItem({ post, isOriginal, isLocked }: PostItemProps) {
           OP
         </span>
       </div>
-
       <div className="flex overflow-hidden">
         {post.media && (
           <div className="relative overflow-hidden m-2 sm:m-4">
-            <Image
-              src={post.media}
-              alt="image_here"
-              width={400}
-              height={300}
-              className="h-auto max-h-64 object-contain"
-              loading="eager"
-            />
+            {post.mediaType === "image" ? (
+              <Image
+                src={post.media}
+                alt="image_here"
+                width={400}
+                height={300}
+                className="h-auto max-h-64 object-contain"
+                loading="eager"
+              />
+            ) : (
+              <video
+                src={post.media}
+                controls
+                className="h-auto max-h-64 object-contain"
+                preload="metadata"
+              >
+                Your browser does not support video tag.
+              </video>
+            )}
           </div>
         )}
         <p className="mt-2 w-full text-primary whitespace-pre-wrap border p-4px bg-gray-700 text-justify text-sm wrap-break-word rounded-xs overflow-hidden">

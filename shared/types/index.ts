@@ -5,7 +5,6 @@ export type ChannelInfo = {
   name: string;
   desc: string;
   nsfw: boolean;
-  mediaType: string;
 };
 
 export type Post = {
@@ -15,6 +14,7 @@ export type Post = {
   createdAt: Date;
   content: string | null;
   media: string | null;
+  mediaType: string | null;
   ucode: string | null;
   op: boolean;
   sage: boolean;

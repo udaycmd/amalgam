@@ -20,16 +20,29 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
       className="block group"
     >
       <Card className="h-full overflow-hidden border-primary/20 hover:border-primary transition-colors pt-0 rounded-xs">
-        <div className="relative overflow-hidden m-2 sm:m-4">
-          <Image
-            src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg"
-            alt="image_here"
-            width={400}
-            height={300}
-            className="w-full h-auto max-h-64 object-contain"
-            loading="eager"
-          />
-        </div>
+        {tinfo.op.media && (
+          <div className="relative overflow-hidden m-2 sm:m-4">
+            {tinfo.op.mediaType === "image" ? (
+              <Image
+                src={tinfo.op.media}
+                alt="image_here"
+                width={400}
+                height={300}
+                className="w-full h-auto max-h-64 object-contain"
+                loading="eager"
+              />
+            ) : (
+              <video
+                src={tinfo.op.media}
+                controls
+                className="w-full h-auto max-h-64 object-contain"
+                preload="metadata"
+              >
+                Your browser does not support video tag.
+              </video>
+            )}
+          </div>
+        )}
 
         <CardHeader className="pt-1 px-2 sm:px-4 pb-1">
           <div className="line-clamp-2 font-medium text-sm sm:text-md tracking-tight">

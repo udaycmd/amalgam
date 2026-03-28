@@ -18,7 +18,7 @@ export default async function ChannelPage({
   const data = await request<PaginatedChannel>(
     `channels/${channelId}/threads?page=${currentPage}`,
     {
-      next: { revalidate: 1800 },
+      next: { revalidate: 120 },
     },
   );
 
@@ -52,7 +52,7 @@ function ChannelHeader({ chinfo }: { chinfo: ChannelInfo }) {
         </h1>
         <p className="text-muted-foreground">{chinfo.desc}</p>
       </div>
-      <PostForm media={chinfo.mediaType} channelId={chinfo.slug} />
+      <PostForm channelId={chinfo.slug} />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     BACKEND_API_ROOT: z.url(),
+    BLOB_READ_WRITE_TOKEN: z.string(),
   },
   client: {
     NEXT_PUBLIC_ORG_NAME: z.string(),

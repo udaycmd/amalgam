@@ -30,11 +30,9 @@ import { Input } from "@/components/ui/input";
 export function PostForm({
   channelId,
   isReply,
-  media,
 }: {
   channelId: string;
   isReply?: boolean;
-  media: string;
 }) {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>("unknown");
@@ -286,10 +284,7 @@ export function PostForm({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className={cn(
-                    "text-sm rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/40",
-                    media === "image" ? "hidden" : "",
-                  )}
+                  className="text-sm rounded-xs cursor-pointer gap-1.5 border-primary/20 hover:bg-indigo-950/40"
                   onClick={() => videoInputRef.current?.click()}
                 >
                   <Film className="h-3.5 w-3.5" />

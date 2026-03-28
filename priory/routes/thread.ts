@@ -99,7 +99,10 @@ threadRouter.post("/", async (req, res) => {
 
     res.json({ error: false, message: "post created" } satisfies Status);
   } catch (e) {
-    res.json({ error: true, message: (e as Error).message } satisfies Status);
+    res.json({
+      error: true,
+      message: "failed to insert post",
+    } satisfies Status);
   }
 });
 
@@ -144,7 +147,7 @@ threadRouter.get("/:threadId", async (req, res) => {
       threadId: BigInt(threadId),
       op: false,
     },
-    take: limit,
+    take: limit + 1,
     orderBy: {
       id: "asc",
     },
@@ -156,10 +159,11 @@ threadRouter.get("/:threadId", async (req, res) => {
     }),
   })) satisfies Post[];
 
-  const nxtCurr: string | undefined =
-    replies.length === limit
-      ? replies[replies.length - 1]?.id.toString()
-      : undefined;
+  const hasMore = replies.length > limit;
+  const page = hasMore ? replies.slice(0, limit) : replies;
+  const nxtCurr: string | undefined = hasMore
+    ? page[page.length - 1]?.id.toString()
+    : undefined;
 
   let tinfo: ThreadInfo | undefined = undefined;
 
@@ -170,7 +174,7 @@ threadRouter.get("/:threadId", async (req, res) => {
 
   res.json({
     ...(tinfo && { tinfo }),
-    replies,
+    replies: page,
     ...(nxtCurr && { nxtCurr }),
   } satisfies PaginatedThread);
 });
