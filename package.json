@@ -1,0 +1,33 @@
+{
+  "name": "amalgam",
+  "version": "0.1.0",
+  "author": "Uday Tiwari",
+  "private": true,
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "dev:server": "pnpm --filter priory dev",
+    "dev:web": "pnpm --filter amalgam dev",
+    "dev": "pnpm --parallel dev",
+    "build:server": "pnpm --filter priory build",
+    "build:web": "pnpm --filter amalgam build",
+    "build": "pnpm --recursive build",
+    "lint:server": "pnpm --filter priory lint",
+    "lint:web": "pnpm --filter amalgam lint",
+    "lint": "pnpm --recursive lint"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "eslint": "^10.0.3",
+    "typescript": "^5.9.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/engines",
+      "esbuild",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
+  "packageManager": "pnpm@10.0.0"
+}

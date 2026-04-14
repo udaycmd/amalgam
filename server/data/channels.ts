@@ -1,4 +1,4 @@
-import type { ChannelInfo } from "@shared/types/index.js";
+import type { ChannelInfo } from "@amalgam/shared";
 
 export const channels: ChannelInfo[] = [
   {

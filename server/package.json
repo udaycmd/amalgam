@@ -1,9 +1,10 @@
 {
-  "name": "priory",
+  "name": "@amalgam/server",
   "version": "0.1.0",
   "description": "API service for amalgam",
   "author": "Uday Tiwari",
   "license": "BSD-3-Clause",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc && tsc-alias",
@@ -15,6 +16,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@amalgam/shared": "workspace:*",
     "@faker-js/faker": "^10.3.0",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
@@ -25,12 +27,9 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/node": "^25.5.0",
     "@types/pg": "^8.18.0",
-    "eslint": "^10.0.3",
     "prisma": "^7.5.0",
     "tsc-alias": "^1.8.16",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "tsx": "^4.21.0"
   }
 }

@@ -6,7 +6,7 @@ import type {
   Post,
   Status,
   CreatePost,
-} from "@shared/types/index.js";
+} from "@amalgam/shared";
 import { Router } from "express";
 import config from "@/config.js";
 import db from "@/prisma/db.js";

@@ -16,12 +16,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@shared/*": [
-        "../shared/*"
-      ]
-    },
-  },
+      "@/*": ["./*"]
+    }
+  }
 }

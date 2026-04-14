@@ -1,4 +1,4 @@
-import type { ChannelInfo } from "@shared/types/index.js";
+import type { ChannelInfo } from "@amalgam/shared";
 import { Router } from "express";
 import { channels } from "@/data/channels.js";
 import threadRouter from "@/routes/thread.js";
