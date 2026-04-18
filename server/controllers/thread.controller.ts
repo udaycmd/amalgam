@@ -1,19 +1,48 @@
 import type {
+  ApiResponse,
+  ThreadInfo,
+  Post,
   ChannelInfo,
   PaginatedChannel,
   PaginatedThread,
-  ThreadInfo,
-  Post,
-  Status,
-  CreatePost,
 } from "@amalgam/shared";
-import { Router } from "express";
+import type { Request, Response } from "express";
 import config from "@/lib/config.js";
 import db from "@/lib/db.js";
 
-const threadRouter = Router({ mergeParams: true });
+export async function getTrendingThreads(_req: Request, res: Response) {
+  const threads = await db.thread.findMany({
+    where: {
+      isArchived: false,
+    },
+    orderBy: {
+      bumpedAt: "desc",
+    },
+    take: config.THREAD_PER_PAGE_LIMIT,
+    include: {
+      posts: {
+        where: { op: true },
+        take: 1,
+      },
+    },
+  });
 
-threadRouter.get("/", async (req, res) => {
+  let trendingThreads = [] as ThreadInfo[];
+
+  threads.map((t) => {
+    const { posts, ...tinfo } = t;
+    trendingThreads.push({
+      ...tinfo,
+      op: posts[0] as Post,
+    });
+  });
+
+  res
+    .status(200)
+    .json({ data: trendingThreads } satisfies ApiResponse<ThreadInfo[]>);
+}
+
+export async function getThreads(req: Request, res: Response) {
   const { channel } = req.params as { channel: string };
   const page = req.query.page ? parseInt(req.query.page as string) || 1 : 1;
 
@@ -26,7 +55,12 @@ threadRouter.get("/", async (req, res) => {
   })) satisfies ChannelInfo | null;
 
   if (!chinfo) {
-    res.status(404);
+    res.status(404).json({
+      error: {
+        code: 404,
+        details: `'${channel}' not found`,
+      },
+    } satisfies ApiResponse<undefined>);
     return;
   }
 
@@ -63,60 +97,25 @@ threadRouter.get("/", async (req, res) => {
   const hasMore =
     topThreads.length > config.THREAD_PER_PAGE_LIMIT && !!topThreads.pop();
 
-  res.json({ chinfo, threads: topThreads, hasMore } satisfies PaginatedChannel);
-});
+  res.status(200).json({
+    data: { chinfo, threads: topThreads, hasMore },
+  } satisfies ApiResponse<PaginatedChannel>);
+}
 
-threadRouter.post("/", async (req, res) => {
-  const { channel } = req.params as { channel: string };
-  const { name, header, comment, mediaURL, mediaType } = req.body as CreatePost;
-
-  try {
-    await db.$transaction(async (tx) => {
-      const op = await tx.post.create({
-        data: {
-          header: header,
-          author: name,
-          media: mediaURL,
-          content: comment,
-          op: true,
-        },
-      });
-
-      await tx.thread.create({
-        data: {
-          id: op.id,
-          channelId: channel,
-        },
-      });
-
-      await tx.post.update({
-        where: { id: op.id },
-        data: {
-          threadId: op.id,
-        },
-      });
-    });
-
-    res.json({ error: false, message: "post created" } satisfies Status);
-  } catch (e) {
-    res.json({
-      error: true,
-      message: "failed to insert post",
-    } satisfies Status);
-  }
-});
-
-threadRouter.get("/:threadId", async (req, res) => {
+export async function getThread(req: Request, res: Response) {
   const { threadId, channel } = req.params as {
     threadId: string;
     channel: string;
   };
+
   const curr: bigint | undefined = req.query.cursor
     ? BigInt(req.query.cursor as string) || undefined
     : undefined;
+
   const limit: number = req.query.limit
     ? parseInt(req.query.limit as string)
     : config.POST_PER_CALL_LIMIT;
+
   const skipMeta = req.get("Skip-Meta");
 
   let thread = null;
@@ -138,7 +137,12 @@ threadRouter.get("/:threadId", async (req, res) => {
     });
 
     if (!thread) {
-      return res.status(404).json({ error: "thread not found" });
+      return res.status(404).json({
+        error: {
+          code: 404,
+          details: `thread:${threadId} not found`,
+        },
+      } satisfies ApiResponse<undefined>);
     }
   }
 
@@ -172,11 +176,11 @@ threadRouter.get("/:threadId", async (req, res) => {
     tinfo = { ...rest, op: posts[0] as Post } satisfies ThreadInfo;
   }
 
-  res.json({
-    ...(tinfo && { tinfo }),
-    replies: page,
-    ...(nxtCurr && { nxtCurr }),
-  } satisfies PaginatedThread);
-});
-
-export default threadRouter;
+  res.status(200).json({
+    data: {
+      ...(tinfo && { tinfo }),
+      replies: page,
+      ...(nxtCurr && { nxtCurr }),
+    },
+  } satisfies ApiResponse<PaginatedThread>);
+}

@@ -1,8 +1,5 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import {
-  publicClientEnv,
-  privateClientEnv,
-} from "@amalgam/shared/schemas/clientEnv.schema";
+import { publicClientEnv, privateClientEnv } from "@amalgam/shared";
 
 export const env = createEnv({
   server: privateClientEnv,

@@ -1,15 +1,54 @@
 /*
- * thseed.ts: Thread seeder.
+ * seed.ts: Database seeder.
  *
  * Must be used in dev environment.
  */
 
+import { type ChannelInfo } from "@amalgam/shared";
 import { faker } from "@faker-js/faker";
-import { channels } from "@/data/channels.js";
 import db from "@/lib/db.js";
 
 const THREAD_LIMIT = 100; // see prisma/schema.prisma
 const REPLIES_PER_THREAD = (Math.random() + 1) * 100;
+
+const channels: ChannelInfo[] = [
+  {
+    slug: "th",
+    name: "Technology",
+    desc: "Technology & Software",
+    nsfw: false,
+  },
+  {
+    slug: "vg",
+    name: "Video Games",
+    desc: "Video Games",
+    nsfw: false,
+  },
+  {
+    slug: "am",
+    name: "Anime & Manga",
+    desc: "Anime & Manga",
+    nsfw: false,
+  },
+  {
+    slug: "ph",
+    name: "Photography",
+    desc: "Photography",
+    nsfw: false,
+  },
+  {
+    slug: "ck",
+    name: "Food & Cooking",
+    desc: "Food & Cooking",
+    nsfw: false,
+  },
+  {
+    slug: "fit",
+    name: "Fitness",
+    desc: "Health & Fitness",
+    nsfw: false,
+  },
+];
 
 async function main() {
   console.log("starting db seeding ...");

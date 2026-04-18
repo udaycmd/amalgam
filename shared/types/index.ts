@@ -1,5 +1,3 @@
-// ---  Data Object Specifications ---
-
 export type ChannelInfo = {
   slug: string;
   name: string;
@@ -37,21 +35,20 @@ export type PaginatedThread = {
   nxtCurr?: string;
 };
 
+// TODO: chinfo -> chinfo?
 export type PaginatedChannel = {
   chinfo: ChannelInfo;
   threads: ThreadInfo[];
   hasMore: boolean;
 };
 
-export type Status = Readonly<{
-  error: boolean;
-  message: string;
+export type ApiError = Readonly<{
+  error?: Error;
+  code?: number;
+  details?: unknown;
 }>;
 
-export type CreatePost = Readonly<{
-  name: string;
-  comment: string;
-  header: string | null;
-  mediaURL: string | null;
-  mediaType: string | null;
+export type ApiResponse<T> = Readonly<{
+  data?: T;
+  error?: ApiError;
 }>;
