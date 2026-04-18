@@ -10,6 +10,7 @@
     "dev": "pnpm --parallel dev",
     "build:server": "pnpm --filter \"@amalgam/server\" build",
     "build:web": "pnpm --filter \"@amalgam/web\" build",
+    "build:shared": "pnpm --filter \"@amalgam/shared\" build",
     "build": "pnpm --recursive build",
     "lint:server": "pnpm --filter \"@amalgam/server\" lint",
     "lint:web": "pnpm --filter \"@amalgam/web\" lint",

@@ -4,9 +4,11 @@
   "author": "Uday Tiwari",
   "private": true,
   "license": "BSD-3-Clause",
-  "main": "./index.ts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "build": "tsc"
   },
   "dependencies": {
     "zod": "^4.3.6"

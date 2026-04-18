@@ -15,6 +15,6 @@ app.use(helmet());
 app.use("/api/v1", apiRouter);
 app.use(errorHandler);
 
-app.listen(config.port, () => {
-  console.log(`server started at port: ${config.port}`);
+app.listen(config.PORT, () => {
+  console.log(`server started at port: ${config.PORT}`);
 });
