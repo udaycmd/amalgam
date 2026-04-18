@@ -1,8 +1,8 @@
 import type { Post, ThreadInfo } from "@amalgam/shared";
 import { Router } from "express";
-import config from "@/config.js";
+import config from "@/lib/config.js";
 import channelRouter from "@/routes/channel.js";
-import db from "@/prisma/db.js";
+import db from "@/lib/db.js";
 
 const router = Router();
 

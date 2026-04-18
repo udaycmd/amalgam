@@ -5,14 +5,14 @@
   "private": true,
   "license": "BSD-3-Clause",
   "scripts": {
-    "dev:server": "pnpm --filter priory dev",
-    "dev:web": "pnpm --filter amalgam dev",
+    "dev:server": "pnpm --filter \"@amalgam/server\" dev",
+    "dev:web": "pnpm --filter \"@amalgam/web\" dev",
     "dev": "pnpm --parallel dev",
-    "build:server": "pnpm --filter priory build",
-    "build:web": "pnpm --filter amalgam build",
+    "build:server": "pnpm --filter \"@amalgam/server\" build",
+    "build:web": "pnpm --filter \"@amalgam/web\" build",
     "build": "pnpm --recursive build",
-    "lint:server": "pnpm --filter priory lint",
-    "lint:web": "pnpm --filter amalgam lint",
+    "lint:server": "pnpm --filter \"@amalgam/server\" lint",
+    "lint:web": "pnpm --filter \"@amalgam/web\" lint",
     "lint": "pnpm --recursive lint"
   },
   "devDependencies": {
@@ -29,5 +29,5 @@
       "unrs-resolver"
     ]
   },
-  "packageManager": "pnpm@10.0.0"
+  "packageManager": "pnpm@10.33.0"
 }

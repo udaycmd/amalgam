@@ -6,7 +6,7 @@
 
 import { faker } from "@faker-js/faker";
 import { channels } from "@/data/channels.js";
-import db from "@/prisma/db.js";
+import db from "@/lib/db.js";
 
 const THREAD_LIMIT = 100; // see prisma/schema.prisma
 const REPLIES_PER_THREAD = (Math.random() + 1) * 100;

@@ -8,8 +8,8 @@ import type {
   CreatePost,
 } from "@amalgam/shared";
 import { Router } from "express";
-import config from "@/config.js";
-import db from "@/prisma/db.js";
+import config from "@/lib/config.js";
+import db from "@/lib/db.js";
 
 const threadRouter = Router({ mergeParams: true });
 

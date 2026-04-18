@@ -1,5 +1,5 @@
 import express from "express";
-import config from "@/config.js";
+import config from "@/lib/config.js";
 import apiRouter from "@/routes/index.js";
 import bigIntJson from "@/lib/bigint.js";
 import helmet from "helmet";

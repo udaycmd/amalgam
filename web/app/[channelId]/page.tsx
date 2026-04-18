@@ -1,7 +1,8 @@
-import { PaginatedChannel, ChannelPageProps, ChannelInfo } from "@/types";
+import { PaginatedChannel, ChannelPageProps, ChannelInfo } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Main } from "@/components/main";
-import { request, cn } from "@/lib/utils";
+import { request } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import { notFound, redirect } from "next/navigation";
 import { ThreadCard } from "@/components/thread-card";
 import { PostForm } from "@/components/post-form";

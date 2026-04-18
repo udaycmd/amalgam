@@ -1,4 +1,4 @@
-import { ThreadCardProps } from "@/types";
+import { ThreadCardProps } from "@/lib/types";
 import {
   Card,
   CardHeader,

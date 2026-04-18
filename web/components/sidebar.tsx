@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarProps } from "@/types";
+import { SidebarProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { env } from "@/env.mjs";
+import { env } from "@/env.js";
 import Link from "next/link";
 
 export function Sidebar({ channels }: SidebarProps) {

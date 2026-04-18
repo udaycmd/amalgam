@@ -1,7 +1,7 @@
-import { PaginatedThread, ThreadPageProps } from "@/types";
+import { PaginatedThread, ThreadPageProps } from "@/lib/types";
 import { Suspense } from "react";
 import { Main } from "@/components/main";
-import { request } from "@/lib/utils";
+import { request } from "@/lib/api";
 import { Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ThreadView } from "@/components/thread-view";

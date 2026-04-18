@@ -1,6 +1,6 @@
 "use client";
 
-import { PaginatedThread, Post } from "@/types";
+import { PaginatedThread, Post } from "@/lib/types";
 import { useState, useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";

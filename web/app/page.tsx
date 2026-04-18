@@ -1,5 +1,5 @@
-import { request } from "@/lib/utils";
-import { ThreadInfo } from "@/types";
+import { request } from "@/lib/api";
+import { ThreadInfo } from "@/lib/types";
 import { ThreadCard } from "@/components/thread-card";
 import { Main } from "@/components/main";
 

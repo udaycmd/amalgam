@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import type { ChannelInfo } from "@/types";
+import type { ChannelInfo } from "@/lib/types";
 
 import { Outfit } from "next/font/google";
 import { Sidebar } from "@/components/sidebar";
-import { request } from "@/lib/utils";
+import { request } from "@/lib/api";
 import { MobileSideBar } from "@/components/sidebar";
-import { env } from "@/env.mjs";
+import { env } from "@/env.js";
 import React from "react";
 import Link from "next/link";
 import "./globals.css";

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReplyFormProps } from "@/types";
+import { ReplyFormProps } from "@/lib/types";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
