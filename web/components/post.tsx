@@ -60,9 +60,8 @@ export function PostItem({ post, isOriginal, isLocked }: PostItemProps) {
       </div>
 
       <div className="text-xs mt-2 text-muted-foreground">
-        Created at{" "}
         <time dateTime={new Date(post.createdAt as Date).toISOString()}>
-          {new Date(post.createdAt as Date).toLocaleString()}
+          {new Date(post.createdAt as Date).toLocaleString("en-IN")}
         </time>
       </div>
     </div>

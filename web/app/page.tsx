@@ -1,14 +1,16 @@
-import { request } from "@/lib/api";
-import { ThreadInfo } from "@/lib/types";
+import { ApiResponse, ThreadInfo } from "@amalgam/shared";
 import { ThreadCard } from "@/components/thread-card";
 import { Main } from "@/components/main";
+import { env } from "@/env";
 
 export default async function Home() {
-  const topThreads =
-    (await request<ThreadInfo[]>("top", {
+  const trendingThreads = (await (
+    await fetch(`${env.BACKEND_API_BASE}/trending`, {
       next: { revalidate: 600 },
-    })) ?? [];
+    })
+  ).json()) as ApiResponse<ThreadInfo[]>;
 
+  trendingThreads.error && console.error(trendingThreads.error);
   return (
     <Main>
       <div className="flex flex-col gap-2">
@@ -20,7 +22,7 @@ export default async function Home() {
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-        {topThreads.map((t) => (
+        {trendingThreads.data?.map((t) => (
           <ThreadCard key={t.id} tinfo={t} />
         ))}
       </div>

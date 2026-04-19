@@ -1,52 +1,31 @@
 "use server";
 
-import { PaginatedThread, Status } from "@shared/types";
-import { request } from "@/lib/utils";
+import type { ApiResponse, PaginatedThread } from "@amalgam/shared";
+import { postThreadSchema } from "@amalgam/shared";
 import { put, del } from "@vercel/blob";
-import { z } from "zod";
-
-const postThreadSchema = z.object({
-  name: z.string().max(60, "Name too Long"),
-  header: z.string().optional(),
-  comment: z.string().min(1, "Comment cannot be empty"),
-  mediaType: z.union([z.literal("image"), z.literal("video")]).optional(),
-  media: z
-    .instanceof(File)
-    .refine(
-      (f) =>
-        [
-          "image/png",
-          "image/jpeg",
-          "image/gif",
-          "image/webp",
-          "video/mp4",
-          "video/webm",
-        ].includes(f.type),
-      "Invalid file type",
-    )
-    .optional()
-    .nullable(),
-});
+import { env } from "@/env";
 
 export async function getThread(
   threadId: string,
   channelId: string,
   cursor?: string,
-): Promise<PaginatedThread | null> {
-  return await request<PaginatedThread>(
-    `channels/${channelId}/threads/${threadId}?cursor=${cursor ?? ""}`,
-    {
-      headers: {
-        "Skip-Meta": "skip",
+) {
+  const response = (await (
+    await fetch(
+      `${env.BACKEND_API_BASE}channels/${channelId}/threads/${threadId}?cursor=${cursor ?? ""}`,
+      {
+        next: {
+          revalidate: 60,
+        },
       },
-    },
-  );
+    )
+  ).json()) as ApiResponse<PaginatedThread>;
+
+  response.error && console.error(response.error);
+  return response.data;
 }
 
-export async function postThread(
-  formData: FormData,
-  channelId: string,
-): Promise<Status> {
+export async function postThread(formData: FormData, channelId: string) {
   const res = postThreadSchema.safeParse({
     name: formData.get("name"),
     header: formData.get("header"),
@@ -55,10 +34,7 @@ export async function postThread(
   });
 
   if (!res.success) {
-    return {
-      error: true,
-      message: z.prettifyError(res.error),
-    };
+    return { error: res.error };
   }
 
   const { name, header, comment, media, mediaType } = res.data;
@@ -82,32 +58,27 @@ export async function postThread(
     mediaURL && params.append("media", mediaURL);
     mediaType && params.append("mediaType", mediaType);
 
-    const status = await request<Status>(`channels/${channelId}/threads`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: params.toString(),
-    });
+    const response = (await fetch(
+      `${env.BACKEND_API_BASE}/channels/${channelId}/threads`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params.toString(),
+      },
+    )) as ApiResponse<bigint>;
 
-    if (!status) {
-      throw new Error("service down");
+    if (response.error) {
+      throw response.error.error;
     }
 
-    if (status.error) {
-      throw new Error(status.message);
-    }
-
-    return status;
-  } catch (e) {
+    return response.data;
+  } catch (err) {
     if (mediaURL) {
-      // orphan cleanup
       await del(mediaURL, {
         token: process.env.BLOB_READ_WRITE_TOKEN,
       });
     }
 
-    return {
-      error: true,
-      message: e instanceof Error ? e.message : "request failed",
-    };
+    return { error: err };
   }
 }

@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { env } from "@/env.js";
+import { env } from "@/env";
 import Link from "next/link";
 
 export function Sidebar({ channels }: SidebarProps) {
@@ -34,7 +34,7 @@ export function Sidebar({ channels }: SidebarProps) {
               All Channels
             </h4>
             <div className="grid gap-1">
-              {channels.map((c) => {
+              {channels?.map((c) => {
                 const isActive =
                   pathname === `/${c.slug}` ||
                   pathname.startsWith(`/${c.slug}/`);
@@ -84,7 +84,7 @@ export function MobileSideBar({ channels }: SidebarProps) {
               All Channels
             </h4>
             <div className="grid gap-1">
-              {channels.map((c) => {
+              {channels?.map((c) => {
                 const isActive =
                   pathname === `/${c.slug}` ||
                   pathname.startsWith(`/${c.slug}/`);

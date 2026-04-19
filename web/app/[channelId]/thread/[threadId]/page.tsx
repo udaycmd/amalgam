@@ -1,10 +1,11 @@
-import { PaginatedThread, ThreadPageProps } from "@/lib/types";
+import type { ApiResponse, PaginatedThread } from "@amalgam/shared";
+import type { ThreadPageProps } from "@/lib/types";
 import { Suspense } from "react";
 import { Main } from "@/components/main";
-import { request } from "@/lib/api";
 import { Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ThreadView } from "@/components/thread-view";
+import { env } from "@/env";
 
 export default async function ThreadPage({ params }: ThreadPageProps) {
   const { channelId, threadId } = await params;
@@ -31,14 +32,24 @@ async function ThreadLoader({
   channelId: string;
   threadId: string;
 }) {
-  const init = await request<PaginatedThread>(
-    `channels/${channelId}/threads/${threadId}`,
-    { cache: "no-cache" },
-  );
+  const response = (await (
+    await fetch(
+      `${env.BACKEND_API_BASE}/channels/${channelId}/threads/${threadId}`,
+      {
+        cache: "no-cache",
+      },
+    )
+  ).json()) as ApiResponse<PaginatedThread>;
 
-  if (!init) {
+  if (!response.data) {
     notFound();
   }
 
-  return <ThreadView init={init} channelId={channelId} threadId={threadId} />;
+  return (
+    <ThreadView
+      init={response.data}
+      channelId={channelId}
+      threadId={threadId}
+    />
+  );
 }

@@ -1,21 +1,7 @@
-import type {
-  ChannelInfo,
-  Post,
-  ThreadInfo,
-  PaginatedThread,
-  PaginatedChannel,
-} from "@shared/types";
-
-export type {
-  ChannelInfo,
-  Post,
-  ThreadInfo,
-  PaginatedThread,
-  PaginatedChannel,
-};
+import type { ChannelInfo, Post, ThreadInfo } from "@amalgam/shared";
 
 export type SidebarProps = Readonly<{
-  channels: ChannelInfo[];
+  channels?: ChannelInfo[];
 }>;
 
 export type ThreadCardProps = Readonly<{

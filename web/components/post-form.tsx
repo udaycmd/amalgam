@@ -29,7 +29,6 @@ import { Input } from "@/components/ui/input";
 
 export function PostForm({
   channelId,
-  isReply,
 }: {
   channelId: string;
   isReply?: boolean;
@@ -162,14 +161,12 @@ export function PostForm({
       formData.append("mediaType", mediaType as string);
     }
 
-    const res = await postThread(formData, channelId);
+    const post = await postThread(formData, channelId);
 
-    if (res.error) {
-      alert(res.message);
-      console.error(res.message);
+    if (typeof post !== "bigint") {
+      console.error(post?.error);
     } else {
-      alert("Post Added!");
-      console.log(res.message);
+      alert(`post:${post} added!`);
     }
 
     setOpen(false);
@@ -187,7 +184,7 @@ export function PostForm({
           Start new thread
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-xs bg-sidebar max-w-md sm:max-w-lg p-0 gap-0 overflow-hidden border border-primary/30">
+      <DialogContent className="rounded-xs bg-sidebar max-w-md sm:max-w-lg p-0 gap-0 overflow-hidden border border-primary/30 [&>button:last-child]:hidden">
         <DialogHeader className="px-4 py-3 bg-linear-to-r from-indigo-950/40 to-blue-950/60 border-b border-primary/30">
           <DialogTitle className="text-[15px] font-semibold tracking-wide text-primary/90">
             Create a new thread

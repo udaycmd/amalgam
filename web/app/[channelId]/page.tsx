@@ -1,11 +1,16 @@
-import { PaginatedChannel, ChannelPageProps, ChannelInfo } from "@/lib/types";
+import type {
+  PaginatedChannel,
+  ChannelInfo,
+  ApiResponse,
+} from "@amalgam/shared";
+import type { ChannelPageProps } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Main } from "@/components/main";
-import { request } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { notFound, redirect } from "next/navigation";
 import { ThreadCard } from "@/components/thread-card";
 import { PostForm } from "@/components/post-form";
+import { env } from "@/env";
 import Link from "next/link";
 
 export default async function ChannelPage({
@@ -16,28 +21,30 @@ export default async function ChannelPage({
   const { page } = await searchParams;
   const currentPage = Math.max(1, parseInt(page ?? "1", 10) || 1);
 
-  const data = await request<PaginatedChannel>(
-    `channels/${channelId}/threads?page=${currentPage}`,
-    {
-      next: { revalidate: 120 },
-    },
-  );
+  const response = (await (
+    await fetch(
+      `${env.BACKEND_API_BASE}/channels/${channelId}/threads?page=${currentPage}`,
+      {
+        next: { revalidate: 120 },
+      },
+    )
+  ).json()) as ApiResponse<PaginatedChannel>;
 
-  if (!data) {
+  if (!response.data) {
     notFound();
   }
 
-  if (data.threads.length === 0 && currentPage > 1) {
+  if (response.data.threads.length === 0 && currentPage > 1) {
     redirect(`/${channelId}`);
   }
 
   return (
     <Main>
-      <ChannelHeader chinfo={data.chinfo} />
+      <ChannelHeader chinfo={response.data.chinfo} />
       <ThreadList
         channelId={channelId}
-        threads={data.threads}
-        hasMore={data.hasMore}
+        threads={response.data.threads}
+        hasMore={response.data.hasMore}
         currentPage={currentPage}
       />
     </Main>
