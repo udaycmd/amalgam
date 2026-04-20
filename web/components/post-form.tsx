@@ -26,6 +26,7 @@ import {
 import { postThread } from "@/actions/thread";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 export function PostForm({
   channelId,
@@ -64,13 +65,6 @@ export function PostForm({
       if (canvasRef.current) drawCaptcha(canvasRef.current, text);
     });
   }, []);
-
-  useEffect(() => {
-    if (open) resetCaptcha();
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [open, resetCaptcha]);
 
   useEffect(() => {
     if (captchaVerified && captchaTimer > 0) {
@@ -119,6 +113,11 @@ export function PostForm({
 
   function formatTime(s: number): string {
     return `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
+  }
+
+  function handleOpenChange(value: boolean) {
+    if (value) resetCaptcha();
+    setOpen(value);
   }
 
   function handleMediaSelect(
@@ -177,7 +176,7 @@ export function PostForm({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className="w-full md:w-auto cursor-pointer rounded-xs">
           <PenSquare className="mr-2 h-4 w-4" />
@@ -305,7 +304,7 @@ export function PostForm({
                   <X className="h-4 w-4" />
                 </button>
                 {mediaType === "image" ? (
-                  <img
+                  <Image
                     src={mediaPreview}
                     alt="Preview"
                     className="max-h-40 rounded-xs object-contain mx-auto"

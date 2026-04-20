@@ -21,7 +21,7 @@ export async function getThread(
     )
   ).json()) as ApiResponse<PaginatedThread>;
 
-  response.error && console.error(response.error);
+  if (response.error) console.error(response.error);
   return response.data;
 }
 
@@ -54,9 +54,9 @@ export async function postThread(formData: FormData, channelId: string) {
     const params = new URLSearchParams();
     params.append("name", name);
     params.append("comment", comment);
-    header && params.append("header", header);
-    mediaURL && params.append("media", mediaURL);
-    mediaType && params.append("mediaType", mediaType);
+    if (header) params.append("header", header);
+    if (mediaURL) params.append("media", mediaURL);
+    if (mediaType) params.append("mediaType", mediaType);
 
     const response = (await fetch(
       `${env.BACKEND_API_BASE}/channels/${channelId}/threads`,

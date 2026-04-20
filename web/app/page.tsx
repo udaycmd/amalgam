@@ -10,7 +10,7 @@ export default async function Home() {
     })
   ).json()) as ApiResponse<ThreadInfo[]>;
 
-  trendingThreads.error && console.error(trendingThreads.error);
+  if (trendingThreads.error) console.error(trendingThreads.error);
   return (
     <Main>
       <div className="flex flex-col gap-2">

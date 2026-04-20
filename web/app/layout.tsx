@@ -24,7 +24,7 @@ export default async function RootLayout({
     })
   ).json()) as ApiResponse<ChannelInfo[]>;
 
-  channels.error && console.error(channels.error);
+  if (channels.error) console.error(channels.error);
   return (
     <html
       lang="en"

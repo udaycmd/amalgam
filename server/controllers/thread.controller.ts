@@ -27,7 +27,7 @@ export async function getTrendingThreads(_req: Request, res: Response) {
     },
   });
 
-  let trendingThreads = [] as ThreadInfo[];
+  const trendingThreads = [] as ThreadInfo[];
 
   threads.map((t) => {
     const { posts, ...tinfo } = t;
@@ -84,7 +84,7 @@ export async function getThreads(req: Request, res: Response) {
     skip: (page - 1) * config.THREAD_PER_PAGE_LIMIT,
   });
 
-  let topThreads: ThreadInfo[] = [];
+  const topThreads: ThreadInfo[] = [];
 
   threads.map((t) => {
     const { posts, ...tinfo } = t;

@@ -7,22 +7,22 @@
   "scripts": {
     "dev:server": "pnpm --filter \"@amalgam/server\" dev",
     "dev:web": "pnpm --filter \"@amalgam/web\" dev",
-    "dev": "pnpm --parallel dev",
+    "dev": "pnpm build:shared && pnpm --parallel dev",
     "build:server": "pnpm --filter \"@amalgam/server\" build",
     "build:web": "pnpm --filter \"@amalgam/web\" build",
     "build:shared": "pnpm --filter \"@amalgam/shared\" build",
+    "build": "pnpm --recursive build",
     "format:server": "pnpm --filter \"@amalgam/server\" format",
     "format:web": "pnpm --filter \"@amalgam/web\" format",
     "format:shared": "pnpm --filter \"@amalgam/shared\" format",
-    "format": "pnpm --recursive format",
-    "build": "pnpm --recursive build",
+    "format": "pnpm --parallel format",
     "lint:server": "pnpm --filter \"@amalgam/server\" lint",
     "lint:web": "pnpm --filter \"@amalgam/web\" lint",
-    "lint": "pnpm --recursive lint"
+    "lint": "pnpm --parallel lint"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
-    "eslint": "^10.2.1",
+    "eslint": "^9.39.4",
     "prettier": "^3.8.3",
     "typescript": "^5.9.3"
   },

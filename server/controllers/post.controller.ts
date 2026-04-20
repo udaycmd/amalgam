@@ -4,7 +4,7 @@ import db from "@/lib/db.js";
 
 export async function postThread(req: Request, res: Response) {
   const { channel } = req.params as { channel: string };
-  const { name, header, comment, mediaURL, mediaType } = req.body;
+  const { name, header, comment, mediaURL } = req.body;
 
   try {
     const id = await db.$transaction(async (tx) => {
