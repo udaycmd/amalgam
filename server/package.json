@@ -12,7 +12,8 @@
     "start": "node dist/app.js",
     "dev": "tsx watch app.ts",
     "seed": "npx prisma db seed",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write \"**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@amalgam/shared": "workspace:*",

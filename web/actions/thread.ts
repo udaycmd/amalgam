@@ -12,7 +12,7 @@ export async function getThread(
 ) {
   const response = (await (
     await fetch(
-      `${env.BACKEND_API_BASE}channels/${channelId}/threads/${threadId}?cursor=${cursor ?? ""}`,
+      `${env.BACKEND_API_BASE}/channels/${channelId}/threads/${threadId}?cursor=${cursor ?? ""}`,
       {
         next: {
           revalidate: 60,

@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
 import type { ApiResponse, ChannelInfo } from "@amalgam/shared";
-import { Outfit, Geist, Inter } from "next/font/google";
-import { Sidebar } from "@/components/sidebar";
-import { MobileSideBar } from "@/components/sidebar";
+import { Outfit } from "next/font/google";
+import { Sidebar, MobileSideBar } from "@/components/sidebar";
 import { env } from "@/env";
 import React from "react";
 import Link from "next/link";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const baseFont = Outfit({ subsets: ["latin"] });
+const baseFont = Outfit({ subsets: ["latin"], variable: "--font-sans" });
 const org = env.NEXT_PUBLIC_ORG_NAME;
 
 export const metadata: Metadata = {
@@ -32,11 +28,10 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("scroll-smooth", "font-sans", inter.variable)}
+      data-scroll-behaviour="smooth"
+      className={`antialiased ${baseFont.variable}`}
     >
-      <body
-        className={`${baseFont.className} antialiased min-h-screen bg-background`}
-      >
+      <body className="min-h-screen bg-background">
         <div className="relative flex min-h-screen flex-col md:flex-row">
           <Sidebar channels={channels.data} />
           <div className="flex-1 flex flex-col min-w-0 z-0">

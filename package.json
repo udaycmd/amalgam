@@ -11,6 +11,10 @@
     "build:server": "pnpm --filter \"@amalgam/server\" build",
     "build:web": "pnpm --filter \"@amalgam/web\" build",
     "build:shared": "pnpm --filter \"@amalgam/shared\" build",
+    "format:server": "pnpm --filter \"@amalgam/server\" format",
+    "format:web": "pnpm --filter \"@amalgam/web\" format",
+    "format:shared": "pnpm --filter \"@amalgam/shared\" format",
+    "format": "pnpm --recursive format",
     "build": "pnpm --recursive build",
     "lint:server": "pnpm --filter \"@amalgam/server\" lint",
     "lint:web": "pnpm --filter \"@amalgam/web\" lint",
@@ -19,6 +23,7 @@
   "devDependencies": {
     "@types/node": "^25.6.0",
     "eslint": "^10.2.1",
+    "prettier": "^3.8.3",
     "typescript": "^5.9.3"
   },
   "pnpm": {
@@ -27,7 +32,8 @@
       "esbuild",
       "prisma",
       "sharp",
-      "unrs-resolver"
+      "unrs-resolver",
+      "msw"
     ]
   },
   "packageManager": "pnpm@10.33.0"
