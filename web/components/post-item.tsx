@@ -7,8 +7,13 @@ export function PostItem({ post, isOriginal, isLocked }: PostItemProps) {
     <div className="border bg-sidebar p-3 rounded-xs" id={post.id.toString()}>
       <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm text-primary font-semibold">
         <div>By &rarr;</div>
-        <span className="bg-gray-700 text-red-600 px-1.25 break-all rounded-sm">
-          {post.author}
+        <span className="bg-gray-700 px-1.25 break-all rounded-sm">
+          <span className="text-red-500">{post.author}</span>
+          {post.ucode && (
+            <span className="text-violet-500 font-mono text-sm">
+              !!{post.ucode.slice(0, 14)}
+            </span>
+          )}
         </span>
         <span className="text-blue-700 bg-white px-1.25 break-all rounded-sm">
           No.{post.id.toString()}

@@ -1,20 +1,24 @@
 import type { ApiResponse } from "@amalgam/shared";
 import type { Request, Response } from "express";
 import db from "@/lib/db.js";
+import processTripcode from "@/lib/tripcode.js";
 
 export async function postThread(req: Request, res: Response) {
   const { channel } = req.params as { channel: string };
   const { name, header, comment, mediaURL } = req.body;
+
+  const { name: author, tc } = processTripcode(name);
 
   try {
     const id = await db.$transaction(async (tx) => {
       const op = await tx.post.create({
         data: {
           header: header,
-          author: name,
+          author,
           media: mediaURL,
           content: comment,
           op: true,
+          ucode: tc ?? null,
         },
       });
 

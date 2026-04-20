@@ -162,8 +162,11 @@ export function PostForm({
 
     const post = await postThread(formData, channelId);
 
-    if (typeof post !== "bigint") {
-      console.error(post?.error);
+    if (typeof post !== "string") {
+      if (post?.error) {
+        console.error(post?.error);
+      }
+      alert("unable to create thread");
     } else {
       alert(`post:${post} added!`);
     }
@@ -295,7 +298,7 @@ export function PostForm({
             </div>
 
             {mediaPreview && (
-              <div className="relative px-4 py-3 border-b border-primary/30 bg-transparent">
+              <div className="relative h-40 px-4 py-3 border-b border-primary/30 bg-transparent">
                 <button
                   type="button"
                   onClick={clearMedia}
@@ -308,6 +311,7 @@ export function PostForm({
                     src={mediaPreview}
                     alt="Preview"
                     className="max-h-40 rounded-xs object-contain mx-auto"
+                    fill
                   />
                 ) : (
                   <video

@@ -58,14 +58,13 @@ export async function postThread(formData: FormData, channelId: string) {
     if (mediaURL) params.append("media", mediaURL);
     if (mediaType) params.append("mediaType", mediaType);
 
-    const response = (await fetch(
-      `${env.BACKEND_API_BASE}/channels/${channelId}/threads`,
-      {
+    const response = (await (
+      await fetch(`${env.BACKEND_API_BASE}/channels/${channelId}/threads`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params.toString(),
-      },
-    )) as ApiResponse<bigint>;
+      })
+    ).json()) as ApiResponse<string>;
 
     if (response.error) {
       throw response.error.error;

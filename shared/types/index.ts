@@ -42,13 +42,17 @@ export type PaginatedChannel = {
   hasMore: boolean;
 };
 
-export type ApiError = Readonly<{
-  error?: Error;
-  code?: number;
-  details?: unknown;
-}>;
+export type ApiError = Partial<
+  Readonly<{
+    error: Error;
+    code: number;
+    details: unknown;
+  }>
+>;
 
-export type ApiResponse<T> = Readonly<{
-  data?: T;
-  error?: ApiError;
-}>;
+export type ApiResponse<T> = Partial<
+  Readonly<{
+    data: T;
+    error: ApiError;
+  }>
+>;

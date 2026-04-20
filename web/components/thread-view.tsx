@@ -4,7 +4,7 @@ import type { PaginatedThread, Post } from "@amalgam/shared";
 import { useState, useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PostItem } from "@/components/post";
+import { PostItem } from "@/components/post-item";
 import { getThread } from "@/actions/thread";
 
 export function ThreadView({
