@@ -2,14 +2,18 @@ import type { ApiResponse } from "@amalgam/shared";
 import type { Request, Response } from "express";
 import db from "@/lib/db.js";
 import processTripcode from "@/lib/tripcode.js";
+import wc from "@/lib/wc.js";
 
 export async function postThread(req: Request, res: Response) {
   const { channel } = req.params as { channel: string };
   const { name, header, comment, mediaURL } = req.body;
-
-  const { name: author, tc } = processTripcode(name);
+  const { name: author, tc } = processTripcode(name as string);
 
   try {
+    if (wc(comment as string) > 2000) {
+      throw new Error("word limit breached (>2000)");
+    }
+
     const id = await db.$transaction(async (tx) => {
       const op = await tx.post.create({
         data: {

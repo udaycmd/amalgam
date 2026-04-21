@@ -16,6 +16,10 @@
     "format:web": "pnpm --filter \"@amalgam/web\" format",
     "format:shared": "pnpm --filter \"@amalgam/shared\" format",
     "format": "pnpm --parallel format",
+    "typecheck:server": "pnpm --filter \"@amalgam/server\" typecheck",
+    "typecheck:web": "pnpm --filter \"@amalgam/web\" typecheck",
+    "typecheck:shared": "pnpm --filter \"@amalgam/shared\" typecheck",
+    "typecheck": "pnpm --parallel typecheck",
     "lint:server": "pnpm --filter \"@amalgam/server\" lint",
     "lint:web": "pnpm --filter \"@amalgam/web\" lint",
     "lint": "pnpm --parallel lint"

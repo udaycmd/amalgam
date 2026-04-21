@@ -11,7 +11,7 @@ export default function processTripcode(rawName: string): {
   name: string;
   tc?: string;
 } {
-  if (rawName === "unknown") return { name: rawName };
+  if (!rawName || rawName === "unknown") return { name: rawName };
 
   const sep = rawName.indexOf("##");
   const password = rawName.slice(sep + 2);

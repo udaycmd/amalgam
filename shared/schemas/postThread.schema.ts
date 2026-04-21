@@ -1,9 +1,25 @@
 import { z } from "zod";
 
 export const postThreadSchema = z.object({
-  name: z.string().max(60, "Name too Long"),
+  name: z.string().max(60, { error: "name too long" }),
   header: z.string().optional(),
-  comment: z.string().min(1, "Comment cannot be empty"),
+  comment: z
+    .string()
+    .min(1, { error: "comment cannot be empty" })
+    .refine(
+      (s) => {
+        if (!s || s.trim() === "") return true;
+        return (
+          s
+            .trim()
+            .split(/\s+/)
+            .filter((w) => w.length > 0).length <= 2000
+        );
+      },
+      {
+        error: "comment must be under 2000 words",
+      },
+    ),
   mediaType: z.union([z.literal("image"), z.literal("video")]).optional(),
   media: z
     .instanceof(File)
@@ -17,7 +33,9 @@ export const postThreadSchema = z.object({
           "video/mp4",
           "video/webm",
         ].includes(f.type),
-      "Invalid file type",
+      {
+        error: "invalid file type",
+      },
     )
     .optional()
     .nullable(),

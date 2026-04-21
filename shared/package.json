@@ -9,6 +9,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write \"**/*.{ts,tsx}\""
   },
   "dependencies": {
