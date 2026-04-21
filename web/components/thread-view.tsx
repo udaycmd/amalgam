@@ -56,9 +56,9 @@ export function ThreadView({
             <Button
               onClick={loadMore}
               variant="outline"
-              className="rounded-xs text-primary cursor-pointer"
+              className="rounded-full text-primary cursor-pointer"
             >
-              Load More Replies
+              &darr;
             </Button>
           )}
         </div>

@@ -79,7 +79,7 @@ function ThreadList({
   return (
     <>
       {threads.length === 0 ? (
-        <span className="text-center text-primary py-12 border-dotted border-2 border-primary rounded-xs">
+        <span className="text-center text-primary py-12 border-dotted border-2 border-primary rounded-xl">
           No threads survived. Be the first to start one!
         </span>
       ) : (
@@ -96,30 +96,26 @@ function ThreadList({
             asChild
             variant="outline"
             className={cn(
-              "rounded-xs text-primary text-sm",
+              "rounded-full text-primary text-sm",
               currentPage <= 1 ? "hidden" : "",
             )}
           >
-            <Link href={`/${channelId}?page=${currentPage - 1}`}>
-              &larr; Previous
-            </Link>
+            <Link href={`/${channelId}?page=${currentPage - 1}`}>&larr;</Link>
           </Button>
 
           <span className="text-sm text-primary font-medium">
-            [ {currentPage} ]
+            Page {currentPage}
           </span>
 
           <Button
             asChild
             variant="outline"
             className={cn(
-              "rounded-xs text-primary text-sm",
+              "rounded-full text-primary text-sm",
               !hasMore ? "hidden" : "",
             )}
           >
-            <Link href={`/${channelId}?page=${currentPage + 1}`}>
-              Next &rarr;
-            </Link>
+            <Link href={`/${channelId}?page=${currentPage + 1}`}>&rarr;</Link>
           </Button>
         </div>
       )}

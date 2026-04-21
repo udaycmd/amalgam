@@ -181,12 +181,15 @@ export function PostForm({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button className="w-full md:w-auto cursor-pointer rounded-xs">
-          <PenSquare className="mr-2 h-4 w-4" />
+        <Button
+          variant="default"
+          className="w-full md:w-auto cursor-pointer rounded"
+        >
+          <PenSquare className="size-4" />
           Start new thread
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-xs bg-sidebar max-w-md sm:max-w-lg p-0 gap-0 overflow-hidden border border-primary/30 [&>button:last-child]:hidden">
+      <DialogContent className="rounded bg-sidebar max-w-md sm:max-w-lg p-0 gap-0 overflow-hidden border border-primary/30 [&>button:last-child]:hidden">
         <DialogHeader className="px-4 py-3 bg-linear-to-r from-indigo-950/40 to-blue-950/60 border-b border-primary/30">
           <DialogTitle className="text-[15px] font-semibold tracking-wide text-primary/90">
             Create a new thread

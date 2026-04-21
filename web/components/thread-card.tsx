@@ -5,7 +5,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { Clock, MessageSquare } from "lucide-react";
+import { Clock, MessageCircle } from "lucide-react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
@@ -19,7 +19,7 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
       href={`/${tinfo.channelId}/thread/${tinfo.id}`}
       className="block group"
     >
-      <Card className="h-full overflow-hidden border-primary/20 hover:border-primary transition-colors pt-0 rounded-xs">
+      <Card className="h-full overflow-hidden border-primary/20 hover:border-primary transition-colors pt-0 rounded-xl">
         {tinfo.op.media && (
           <div className="relative overflow-hidden m-2 sm:m-4">
             {tinfo.op.mediaType === "image" ? (
@@ -50,7 +50,7 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
           </div>
 
           <div className="flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground">
-            <span className="font-normal text-[11px] sm:text-[13px] text-primary px-2 py-px bg-gray-700 rounded-sm">
+            <span className="font-normal text-[11px] sm:text-[13px] text-primary bg-muted rounded-full px-1 py-1">
               /{tinfo.channelId}
             </span>
 
@@ -69,7 +69,7 @@ export function ThreadCard({ tinfo }: ThreadCardProps) {
 
         <CardFooter className="px-2 sm:px-4 pt-1 pb-2 text-xs sm:text-sm text-muted-foreground mt-auto flex justify-between">
           <div className="flex items-center gap-1 text-primary">
-            <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
+            <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4" />
             {tinfo.replyCount} replies
           </div>
         </CardFooter>

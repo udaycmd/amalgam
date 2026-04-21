@@ -1,13 +1,14 @@
 import { PostItemProps } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export function PostItem({ post, isOriginal, isLocked }: PostItemProps) {
   return (
-    <div className="border bg-sidebar p-3 rounded-xs" id={post.id.toString()}>
-      <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm text-primary font-semibold">
-        <div>By &rarr;</div>
-        <span className="bg-gray-700 px-1.25 break-all rounded-sm">
+    <div
+      className="w-fit max-w-full border bg-sidebar p-2 rounded-xl"
+      id={post.id.toString()}
+    >
+      <div className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm text-primary font-semibold mb-2">
+        <span className="bg-gray-700 px-1.5 rounded whitespace-nowrap">
           <span className="text-red-500">{post.author}</span>
           {post.ucode && (
             <span className="text-violet-500 font-mono text-sm">
@@ -15,51 +16,46 @@ export function PostItem({ post, isOriginal, isLocked }: PostItemProps) {
             </span>
           )}
         </span>
-        <span className="text-blue-700 bg-white px-1.25 break-all rounded-sm">
-          No.{post.id.toString()}
+        <span className="text-blue-700 bg-white px-1.5 rounded whitespace-nowrap">
+          #{post.id.toString()}
         </span>
-        <span
-          className={cn(
-            "text-primary bg-red-500 px-1.25 rounded-sm",
-            !isLocked ? "hidden" : "",
-          )}
-        >
-          Locked
-        </span>
-        <span
-          className={cn(
-            "text-primary bg-green-600 px-1.25 rounded-sm",
-            !isOriginal ? "hidden" : "",
-          )}
-        >
-          OP
-        </span>
+        {isLocked && (
+          <span className="text-primary bg-red-500 px-1.5 rounded whitespace-nowrap">
+            Locked
+          </span>
+        )}
+        {isOriginal && (
+          <span className="text-primary bg-green-600 px-1.5 rounded whitespace-nowrap">
+            OP
+          </span>
+        )}
       </div>
-      <div className="flex overflow-hidden">
+
+      <div className="flex flex-col sm:flex-row gap-3 items-start">
         {post.media && (
-          <div className="relative overflow-hidden m-2 sm:m-4">
+          <div className="relative shrink-0">
             {post.mediaType === "image" ? (
               <Image
                 src={post.media}
-                alt="image_here"
+                alt="Post media"
                 width={400}
                 height={300}
-                className="h-auto max-h-64 object-contain"
+                className="h-auto max-h-64 w-auto object-contain rounded"
                 loading="eager"
               />
             ) : (
               <video
                 src={post.media}
                 controls
-                className="h-auto max-h-64 object-contain"
+                className="h-auto max-h-64 w-auto object-contain rounded"
                 preload="metadata"
               >
-                Your browser does not support video tag.
+                Your browser does not support the video tag.
               </video>
             )}
           </div>
         )}
-        <p className="mt-2 w-full text-primary whitespace-pre-wrap border p-4px bg-gray-700 text-justify text-sm wrap-break-word rounded-xs overflow-hidden">
+        <p className="min-w-0 text-primary rounded-xl whitespace-pre-wrap p-2 bg-gray-700 text-sm wrap-break-word">
           {post.content}
         </p>
       </div>
