@@ -35,9 +35,7 @@ export type PaginatedThread = {
   nxtCurr?: string;
 };
 
-// TODO: chinfo -> chinfo?
 export type PaginatedChannel = {
-  chinfo: ChannelInfo;
   threads: ThreadInfo[];
   hasMore: boolean;
 };

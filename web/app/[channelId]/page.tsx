@@ -13,42 +13,15 @@ import { PostForm } from "@/components/post-form";
 import { env } from "@/env";
 import Link from "next/link";
 
-export default async function ChannelPage({
-  params,
-  searchParams,
-}: ChannelPageProps) {
-  const { channelId } = await params;
-  const { page } = await searchParams;
-  const currentPage = Math.max(1, parseInt(page ?? "1", 10) || 1);
+async function getChannelInfo(channelId: string) {
+  const meta = (await (
+    await fetch(`${env.BACKEND_API_BASE}/channels/${channelId}`, {
+      next: { revalidate: 900 },
+    })
+  ).json()) as ApiResponse<ChannelInfo>;
 
-  const response = (await (
-    await fetch(
-      `${env.BACKEND_API_BASE}/channels/${channelId}/threads?page=${currentPage}`,
-      {
-        next: { revalidate: 120 },
-      },
-    )
-  ).json()) as ApiResponse<PaginatedChannel>;
-
-  if (!response.data) {
-    notFound();
-  }
-
-  if (response.data.threads.length === 0 && currentPage > 1) {
-    redirect(`/${channelId}`);
-  }
-
-  return (
-    <Main>
-      <ChannelHeader chinfo={response.data.chinfo} />
-      <ThreadList
-        channelId={channelId}
-        threads={response.data.threads}
-        hasMore={response.data.hasMore}
-        currentPage={currentPage}
-      />
-    </Main>
-  );
+  if (!meta.data) notFound();
+  return meta.data;
 }
 
 function ChannelHeader({ chinfo }: { chinfo: ChannelInfo }) {
@@ -120,5 +93,45 @@ function ThreadList({
         </div>
       )}
     </>
+  );
+}
+
+export default async function ChannelPage({
+  params,
+  searchParams,
+}: ChannelPageProps) {
+  const { channelId } = await params;
+  const { page } = await searchParams;
+  const currentPage = Math.max(1, parseInt(page ?? "1", 10) || 1);
+
+  const chinfo = await getChannelInfo(channelId);
+
+  const threads = (await (
+    await fetch(
+      `${env.BACKEND_API_BASE}/channels/${channelId}/threads?page=${currentPage}`,
+      {
+        next: { revalidate: 120 },
+      },
+    )
+  ).json()) as ApiResponse<PaginatedChannel>;
+
+  if (!threads.data) {
+    notFound();
+  }
+
+  if (threads.data.threads.length === 0 && currentPage > 1) {
+    redirect(`/${channelId}`);
+  }
+
+  return (
+    <Main>
+      <ChannelHeader chinfo={chinfo} />
+      <ThreadList
+        channelId={channelId}
+        threads={threads.data.threads}
+        hasMore={threads.data.hasMore}
+        currentPage={currentPage}
+      />
+    </Main>
   );
 }

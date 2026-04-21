@@ -2,7 +2,6 @@ import type {
   ApiResponse,
   ThreadInfo,
   Post,
-  ChannelInfo,
   PaginatedChannel,
   PaginatedThread,
 } from "@amalgam/shared";
@@ -46,24 +45,6 @@ export async function getThreads(req: Request, res: Response) {
   const { channel } = req.params as { channel: string };
   const page = req.query.page ? parseInt(req.query.page as string) || 1 : 1;
 
-  const chinfo = (await db.channel.findUnique({
-    where: { slug: channel },
-    omit: {
-      threadLimit: true,
-      bumpLimit: true,
-    },
-  })) satisfies ChannelInfo | null;
-
-  if (!chinfo) {
-    res.status(404).json({
-      error: {
-        code: 404,
-        details: `'${channel}' not found`,
-      },
-    } satisfies ApiResponse<undefined>);
-    return;
-  }
-
   const threads = await db.thread.findMany({
     where: {
       channel: { slug: channel },
@@ -97,8 +78,16 @@ export async function getThreads(req: Request, res: Response) {
   const hasMore =
     topThreads.length > config.THREAD_PER_PAGE_LIMIT && !!topThreads.pop();
 
+  if (topThreads.length === 0) {
+    res.status(404).json({
+      error: { code: 404, details: "threads not found" },
+    } satisfies ApiResponse<undefined>);
+
+    return;
+  }
+
   res.status(200).json({
-    data: { chinfo, threads: topThreads, hasMore },
+    data: { threads: topThreads, hasMore },
   } satisfies ApiResponse<PaginatedChannel>);
 }
 
